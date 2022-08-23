@@ -1,0 +1,195 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block content %}
+<main class="contacts-page">
+    <div class="container">
+      <div class="breadcrumbs">
+        <ul>
+          <li>
+            <a href="{% url 'home' %}">Главная</a>
+          </li>
+          <li>Контакты</li>
+        </ul>
+      </div>
+    </div>
+    <div class="title">
+      <h1>Контакты</h1>
+    </div>
+    <div class="container">
+      <div class="contacts">
+        <div class="left">
+          <h3></h3>
+          <p>Наш адрес:</p>
+          <div class="contacts-info">
+            <img src="{% static 'img/ico/marker.svg' %}" alt="pin marker" />
+            <div>
+              <p> Адрес: <strong>{{settings.location}}</strong></p>
+
+            </div>
+          </div>
+          <p>Режим работы:</p>
+          <div class="contacts-info">
+            <img src="{% static 'img/ico/time.svg' %}" alt="clock" />
+            <div>
+              <p> Работаем для Вас ежедневно: <strong>{{settings.time_work}}</strong></p>
+              </p>
+            </div>
+          </div>
+          <p>Телефоны:</p>
+          <div class="contacts-info">
+            <img src="{% static 'img/ico/phone.svg' %}" alt="phone" />
+            <div>
+              <p> Офис: <strong>
+                  <a href="tel:{{settings.phone}}">{{settings.phone}}</a>
+                </strong>
+              </p>
+              <p> WhatsApp:&nbsp; <strong>
+                  <a href="https://wa.me/{{settings.watsapp}}">{{settings.watsapp}}</a>
+                </strong>
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="right">
+          <div class="map_a">
+            <!-- <div class="slide">
+              <a data-fancybox="gallery" href="/images/2_prokar.jpg">
+                <img src="/images/2_prokar.jpg" />
+                <div class="view-ico">
+                  <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="33px" height="32px">
+                    <path fill-rule="evenodd" fill="rgb(255, 255, 255)" d="M31.672,31.657 C31.451,31.878 31.148,31.988 30.872,31.988 C30.568,31.988 30.291,31.878 30.070,31.657 L20.402,22.000 C18.248,23.821 15.486,24.897 12.447,24.897 C5.597,24.897 -0.011,19.324 -0.011,12.454 C-0.011,5.611 5.597,0.010 12.447,0.010 C19.325,0.010 24.905,5.584 24.905,12.454 C24.905,15.461 23.800,18.248 22.005,20.400 L31.672,30.057 C32.115,30.498 32.115,31.216 31.672,31.657 ZM22.640,12.454 C22.640,6.853 18.082,2.273 12.447,2.273 C6.840,2.273 2.254,6.853 2.254,12.454 C2.254,18.055 6.812,22.635 12.447,22.635 C18.082,22.635 22.640,18.082 22.640,12.454 ZM13.580,19.821 C13.580,20.455 13.082,20.952 12.447,20.952 C11.812,20.952 11.314,20.455 11.314,19.821 L11.314,13.585 L5.072,13.585 C4.436,13.585 3.939,13.088 3.939,12.454 C3.939,11.819 4.436,11.323 5.072,11.323 L11.314,11.323 L11.314,5.087 C11.314,4.452 11.812,3.956 12.447,3.956 C13.082,3.956 13.580,4.452 13.580,5.087 L13.580,11.323 L19.822,11.323 C20.458,11.323 20.955,11.819 20.955,12.454 C20.955,13.088 20.458,13.585 19.822,13.585 L13.580,13.585 L13.580,19.821 Z" />
+                  </svg>
+                </div>
+              </a>
+              <div class="slide-text">
+                <a href="/images/2_prokar.jpg" target="_blank" class="print-btn">Распечатать</a>
+                <p>3 этаж</p>
+                <p>Схема расположения костюмерных и складов</p>
+              </div>
+            </div>
+            <div class="slide">
+              <a data-fancybox="gallery" href="/images/3_prokar.jpg">
+                <img src="/images/3_prokar.jpg" />
+                <div class="view-ico">
+                  <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="33px" height="32px">
+                    <path fill-rule="evenodd" fill="rgb(255, 255, 255)" d="M31.672,31.657 C31.451,31.878 31.148,31.988 30.872,31.988 C30.568,31.988 30.291,31.878 30.070,31.657 L20.402,22.000 C18.248,23.821 15.486,24.897 12.447,24.897 C5.597,24.897 -0.011,19.324 -0.011,12.454 C-0.011,5.611 5.597,0.010 12.447,0.010 C19.325,0.010 24.905,5.584 24.905,12.454 C24.905,15.461 23.800,18.248 22.005,20.400 L31.672,30.057 C32.115,30.498 32.115,31.216 31.672,31.657 ZM22.640,12.454 C22.640,6.853 18.082,2.273 12.447,2.273 C6.840,2.273 2.254,6.853 2.254,12.454 C2.254,18.055 6.812,22.635 12.447,22.635 C18.082,22.635 22.640,18.082 22.640,12.454 ZM13.580,19.821 C13.580,20.455 13.082,20.952 12.447,20.952 C11.812,20.952 11.314,20.455 11.314,19.821 L11.314,13.585 L5.072,13.585 C4.436,13.585 3.939,13.088 3.939,12.454 C3.939,11.819 4.436,11.323 5.072,11.323 L11.314,11.323 L11.314,5.087 C11.314,4.452 11.812,3.956 12.447,3.956 C13.082,3.956 13.580,4.452 13.580,5.087 L13.580,11.323 L19.822,11.323 C20.458,11.323 20.955,11.819 20.955,12.454 C20.955,13.088 20.458,13.585 19.822,13.585 L13.580,13.585 L13.580,19.821 Z" />
+                  </svg>
+                </div>
+              </a>
+              <div class="slide-text">
+                <a href="/images/3_prokar.jpg" target="_blank" class="print-btn">Распечатать</a>
+                <p>Пандус</p>
+                <p>Схема проезда к посту 19</p>
+              </div>
+            </div> -->
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2923.782566105531!2d74.57530721547279!3d42.87743327915549!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x389ec83dc62bd4f9%3A0x896dae01da8934f2!2z0KLQvtGA0LPQvtCy0L4t0LDQtNC80LjQvdC40YHRgtGA0LDRgtC40LLQvdGL0Lkg0YbQtdC90YLRgCDQktC10YHQvdCwICjQotCQ0KYg0JLQtdGB0L3QsCk!5e0!3m2!1sru!2skg!4v1644073776345!5m2!1sru!2skg" width="500" height="450" style="border:0;width: 100%;" allowfullscreen="" loading="lazy"></iframe>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="checkout-order darker-bg">
+      <div class="container">
+        <a id="orderAncor"></a>
+        <div class="title">
+          <h2>ОФОРМЛЕНИЕ ПРОПУСКА:</h2>
+        </div>
+        <div class="checkout-attention">
+          <div>
+            <svg id="SVGD" width="17" height="17" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:avocode="https://avocode.com/" viewBox="0 0 17 17">
+              <defs>
+                <path d="M596.99982,1124.49972c0,4.69788 -3.80161,8.49989 -8.49998,8.49989c-4.69803,0 -8.49998,-3.80167 -8.49998,-8.49989c0,-4.69805 3.80173,-8.50006 8.49998,-8.50006c4.69803,0 8.49998,3.80149 8.49998,8.50006zM595.67173,1124.49972c0,-3.96403 -3.20766,-7.17174 -7.1719,-7.17174c-3.96389,0 -7.17178,3.20736 -7.17178,7.17174c0,3.96369 3.20755,7.17192 7.17178,7.17192c3.964,0 7.1719,-3.20771 7.1719,-7.17192zM589.16393,1120.94307v4.27597c0,0.36692 -0.29732,0.66433 -0.6641,0.66433c-0.36678,0 -0.66399,-0.29741 -0.66399,-0.66433v-4.27597c0,-0.36709 0.2972,-0.66416 0.66399,-0.66416c0.36678,0 0.6641,0.29706 0.6641,0.66416zM588.49983,1126.69641c0.49519,0 0.89653,0.40133 0.89653,0.89655c0,0.49488 -0.40134,0.89621 -0.89653,0.89621c-0.49507,0 -0.89642,-0.40133 -0.89642,-0.89621c0,-0.49522 0.40134,-0.89655 0.89642,-0.89655z" id="Path-0"></path>
+              </defs>
+              <desc>Generated with Avocode.</desc>
+              <g transform="matrix(1,0,0,1,-580,-1116)">
+                <g>
+                  <title>Forma 1</title>
+                  <use xlink:href="#Path-0" fill="#d9a756" fill-opacity="1"></use>
+                </g>
+              </g>
+            </svg>
+            <span>ВНИМАНИЕ!!!</span> НЕОБХОДИМА ПРОПИСКА или РЕГИСТРАЦИЯ в г.МОСКВА / в МОСКОВСКОЙ области
+          </div>
+          <div class="info">
+            <div>
+              <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="14px" height="14px">
+                <path fill-rule="evenodd" fill="rgb(217, 167, 86)" d="M4.153,5.681 L3.181,6.652 L6.305,9.777 L13.249,2.834 L12.277,1.862 L6.305,7.833 L4.153,5.681 ZM12.554,7.000 C12.554,10.055 10.055,12.554 7.000,12.554 C3.945,12.554 1.445,10.055 1.445,7.000 C1.445,3.945 3.945,1.445 7.000,1.445 C7.555,1.445 8.041,1.514 8.527,1.653 L9.638,0.542 C8.805,0.265 7.902,0.056 7.000,0.056 C3.181,0.056 0.056,3.181 0.056,7.000 C0.056,10.818 3.181,13.943 7.000,13.943 C10.819,13.943 13.943,10.818 13.943,7.000 L12.554,7.000 Z"></path>
+              </svg> Вам следует записаться ЗА ДЕНЬ!
+            </div>
+            <div>
+              <span>
+                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="14px" height="14px">
+                  <path fill-rule="evenodd" fill="rgb(217, 167, 86)" d="M4.153,5.681 L3.181,6.652 L6.305,9.777 L13.249,2.834 L12.277,1.862 L6.305,7.833 L4.153,5.681 ZM12.554,7.000 C12.554,10.055 10.055,12.554 7.000,12.554 C3.945,12.554 1.445,10.055 1.445,7.000 C1.445,3.945 3.945,1.445 7.000,1.445 C7.555,1.445 8.041,1.514 8.527,1.653 L9.638,0.542 C8.805,0.265 7.902,0.056 7.000,0.056 C3.181,0.056 0.056,3.181 0.056,7.000 C0.056,10.818 3.181,13.943 7.000,13.943 C10.819,13.943 13.943,10.818 13.943,7.000 L12.554,7.000 Z"></path>
+                </svg> ЗАПОЛНИТЕ ФОРМУ </span>
+            </div>
+          </div>
+        </div>
+          {% if messages %}
+            <a name="Spasibo" id="Spasibo"></a>
+              {% for foo in messages %}
+                  <div class="alert alert-{{foo.tags}}" role="alert">
+                      {{foo}}
+                  </div>
+              {% endfor %}
+          {% endif %}
+        <form method="post">
+          {% csrf_token %}
+          <div class="field main-info">
+            <div>
+              <p> Дата визита </p>
+              <label for="datepicker" class="label-text dates">
+                {{form.date}}
+                <img src="{% static 'img/ico/calendar.png' %}" alt="calendar" />
+              </label>
+            </div>
+            <div>
+              <p> Телефон </p>
+              <label for="" class="label-text">
+                {{form.phone}}
+              </label>
+            </div>
+          </div>
+          <div class="field visitors-info" id="visitor0">
+            <div>
+              <p> ФИО </p>
+              <!-- <input type="text" class="fio" placeholder="Фамилия" name="visiterSecondName[]" autocomplete="off" required="required" />
+              <input type="text" class="fio" placeholder="Имя" name="visiterName[]" autocomplete="off" required="required" /> -->
+              {{form.first_name}}
+              {{form.last_name}}
+            </div>
+          </div>
+          <!-- <div class="field" id="add-member">
+            <div class="add-new-member">
+              <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="12px" height="12px">
+                <path fill-rule="evenodd" fill="rgb(207, 176, 130)" d="M12.000,7.000 L7.000,7.000 L7.000,12.000 L5.000,12.000 L5.000,7.000 L-0.000,7.000 L-0.000,5.000 L5.000,5.000 L5.000,-0.000 L7.000,-0.000 L7.000,5.000 L12.000,5.000 L12.000,7.000 Z"></path>
+              </svg> Добавить еще
+            </div>
+          </div> -->
+          <div class="field message">
+            <div>
+              <p>Комментарии</p>
+              <!-- <textarea name="visitorComments" id="" placeholder="Ваши комментарии и пожелания"></textarea> -->
+              {{form.message}}
+            </div>
+          </div>
+          <p> Для входа в ТТЦ "Останкино" при себе иметь оригиналы документы: паспорт, свидетельство о рождении. </p>
+          <!-- <div class="field check-btn">
+            <div>
+              <label>
+                <p>Согласен с правилом <a href="/obrabotka-personalnykh-dannykh/" target="_blank" rel="nofollow">
+                    <strong>обработки персональных данных</strong>
+                  </a>
+                </p>
+                <input type="checkbox" value="1" name="" id="check_order_accept" hidden>
+                <span></span>
+              </label>
+            </div> -->
+            <button id="btn_check_form" type="submit">Отправить заявку</button>
+          </div>
+          <!-- <input type="hidden" name="action" value="orderPass"> -->
+        </form>
+      </div>
+    </div>
+  </main>
+{% endblock %}

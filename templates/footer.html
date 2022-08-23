@@ -1,0 +1,145 @@
+{% load static %}
+{% load mptt_tags %}
+
+<footer>
+    <div class="container">
+       <div class="site-footer">
+          <div class="foot-catalog">
+             <p>Каталог</p>
+             <ul>
+               {% recursetree category %}
+               <li><a href="{% url 'category_product' node.id node.slug %}" >{{node.title}}</a></li>
+                {% endrecursetree %}
+             </ul>
+             <div class="order_button">
+                  <a href="{% url 'order' %}"><button class="btn fifth">Записаться на примерку</button></a> 
+             </div>
+           
+          </div>
+          <div class="foot-info">
+             <p>Информация</p>
+             <ul>
+                <li><a href="/catalog/" >Каталог проката</a></li>
+                <li><a href="/stilistika/" >Стилисты и гримеры</a></li>
+                <li><a href="/gallery/" >Фотогалерея</a></li>
+                <li><a href="/uslovija/" >Условия проката</a></li>
+                <li><a href="/contacts/" >Контакты</a></li>
+                <li><a href="/news/" >Новости</a></li>
+                <li><a href="/otzyvy/" >Отзывы</a></li>
+                <li><a href="/tablitsy-razmerov/" >Таблицы размеров</a></li>
+             </ul>
+          </div>
+          <div class="foot-phones">
+             <!-- <p>Телефоны для справок</p>
+             <ul>
+                <li>Реквизит, мебель, <br> бутафорское оружие:<a href="tel:8(495)617-72-49">8(495)617-72-49</a></li>
+                <li>Парики:<a href="tel:8(495)617-75-28">8(495)617-75-28</a></li>
+                <li>Мужские костюмы:<a href="tel:8(495)617-72-42">8(495)617-72-42</a></li>
+                <li>Женские костюмы:<a href="tel:8(495)617-76-50">8(495)617-76-50</a></li>
+                <li>Военные костюмы:<a href="tel:8(495)617-87-84">8(495)617-87-84</a></li>
+             </ul> -->
+          </div>
+          <div class="foot-contacts">
+             <p>Отдел претензий</p>
+             <div class="wa">
+                <a href="https://wa.me/{{settings.watsapp}}" class="cbp-mc-submit"><span class="icon-whatsapp"></span> WhatsApp </a>
+                <a href="https://tlgg.ru/Prokat_Ostankino" class="telegram"><span class="icon-telegram1"></span></a>
+                <a href="{{settings.instagram}}"><img width="30px" style="margin-top:-5px;" src="{% static 'img/ico/inst_icon.png' %}" alt=""></a>
+             </div>
+             <span>Тел</span>
+             <a href="tel:8(495)617-81-00">8(495)617-81-00</a>
+             <a href="tel:8(903)504-07-96">8(903)504-07-96</a>
+             <p>e-mail:<a href="mailto:{{settings.email}}">{{settings.email}}</a></p>
+             <div class="social">
+                <a href="https://vk.com/club10649042">
+                   <svg version="1.1" id="Слой_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                      viewBox="0 0 17.9 10" style="enable-background:new 0 0 17.9 10;" xml:space="preserve">
+                      <style type="text/css">
+                         .st0{fill:#413733;}
+                      </style>
+                      <path class="st0" d="M17.8,9c0,0,0-0.1-0.1-0.1c-0.3-0.5-0.9-1.2-1.8-2l0,0l0,0l0,0h0c-0.4-0.4-0.6-0.6-0.8-0.7
+                         C15,5.9,14.9,5.6,15,5.4c0.1-0.2,0.4-0.6,0.8-1.2c0.3-0.3,0.5-0.6,0.6-0.8C17.5,2,18,1.1,17.9,0.7l-0.1-0.1c0-0.1-0.1-0.1-0.3-0.1
+                         c-0.2,0-0.4-0.1-0.6,0l-2.7,0c0,0-0.1,0-0.2,0c-0.1,0-0.1,0-0.1,0l0,0l0,0c0,0-0.1,0.1-0.1,0.1c0,0-0.1,0.1-0.1,0.2
+                         c-0.3,0.7-0.6,1.4-1,2c-0.2,0.4-0.4,0.7-0.6,1c-0.2,0.3-0.4,0.5-0.5,0.6c-0.1,0.1-0.2,0.2-0.4,0.3c-0.1,0.1-0.2,0.1-0.2,0.1
+                         c-0.1,0-0.1,0-0.2,0c-0.1-0.1-0.2-0.1-0.2-0.2c-0.1-0.1-0.1-0.2-0.1-0.4c0-0.1,0-0.3,0-0.4c0-0.1,0-0.2,0-0.4c0-0.2,0-0.3,0-0.4
+                         c0-0.2,0-0.5,0-0.8c0-0.3,0-0.5,0-0.6c0-0.2,0-0.3,0-0.5c0-0.2,0-0.3,0-0.4c0-0.1-0.1-0.2-0.1-0.3c0-0.1-0.1-0.2-0.2-0.2
+                         C10.1,0.2,10,0.2,9.9,0.1C9.5,0,9.1,0,8.6,0C7.4,0,6.7,0.1,6.4,0.2C6.2,0.3,6.1,0.4,6,0.5C5.9,0.6,5.9,0.7,6,0.7
+                         c0.4,0.1,0.6,0.2,0.8,0.4l0.1,0.1c0,0.1,0.1,0.2,0.1,0.4C7,1.8,7,2.1,7,2.3c0,0.4,0,0.8,0,1.1C7,3.7,7,4,7,4.2
+                         c0,0.2-0.1,0.3-0.1,0.4C6.8,4.7,6.7,4.8,6.7,4.8c0,0,0,0,0,0c-0.1,0-0.2,0-0.3,0c-0.1,0-0.2,0-0.3-0.1C6,4.7,5.8,4.6,5.7,4.4
+                         C5.6,4.3,5.4,4.1,5.3,3.8C5.1,3.5,4.9,3.2,4.7,2.8L4.6,2.6C4.5,2.4,4.4,2.2,4.2,1.8C4,1.5,3.9,1.2,3.8,0.9c0-0.1-0.1-0.2-0.2-0.3
+                         l0,0c0,0-0.1,0-0.1-0.1c-0.1,0-0.1,0-0.2-0.1l-2.6,0c-0.3,0-0.4,0.1-0.5,0.2l0,0.1c0,0,0,0.1,0,0.1C0,0.9,0,1,0.1,1.1
+                         c0.4,0.9,0.8,1.7,1.2,2.5C1.7,4.3,2.1,5,2.4,5.5c0.3,0.5,0.7,0.9,1,1.4C3.7,7.3,4,7.6,4.1,7.7c0.1,0.1,0.2,0.2,0.3,0.3l0.2,0.2
+                         c0.1,0.1,0.4,0.3,0.7,0.5c0.3,0.2,0.6,0.4,1,0.6c0.4,0.2,0.8,0.4,1.2,0.5c0.5,0.1,0.9,0.2,1.4,0.2h1.1c0.2,0,0.4-0.1,0.5-0.2l0,0
+                         c0,0,0-0.1,0.1-0.2c0-0.1,0-0.2,0-0.2c0-0.3,0-0.5,0.1-0.7c0-0.2,0.1-0.4,0.2-0.5c0.1-0.1,0.1-0.2,0.2-0.3C10.9,7.7,11,7.7,11,7.7
+                         c0,0,0.1,0,0.1,0c0.1,0,0.3,0,0.5,0.1c0.2,0.1,0.4,0.3,0.6,0.5c0.2,0.2,0.4,0.4,0.6,0.7c0.2,0.3,0.5,0.5,0.7,0.6l0.2,0.1
+                         c0.1,0.1,0.3,0.1,0.5,0.2c0.2,0.1,0.4,0.1,0.5,0l2.4,0c0.2,0,0.4,0,0.5-0.1c0.1-0.1,0.2-0.2,0.2-0.2c0-0.1,0-0.2,0-0.3
+                         C17.8,9.1,17.8,9.1,17.8,9z"></path>
+                   </svg>
+                </a>
+                <a href="https://www.instagram.com/prokatostankino/">
+                   <svg version="1.1" id="Слой_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                      viewBox="0 0 13 13" style="enable-background:new 0 0 13 13;" xml:space="preserve">
+                      <style type="text/css">
+                         .st0{fill:#413733;}
+                      </style>
+                      <path class="st0" d="M11.7,0H1.3C0.6,0,0,0.6,0,1.3v10.4C0,12.4,0.6,13,1.3,13h10.4c0.7,0,1.3-0.6,1.3-1.3V1.3C13,0.6,12.4,0,11.7,0
+                         z M6.5,3.9c1.4,0,2.6,1.2,2.6,2.6c0,1.4-1.2,2.6-2.6,2.6c-1.4,0-2.6-1.2-2.6-2.6C3.9,5.1,5.1,3.9,6.5,3.9z M1.6,11.7
+                         c-0.2,0-0.3-0.1-0.3-0.3V5.9h1.4C2.6,6,2.6,6.3,2.6,6.5c0,2.1,1.8,3.9,3.9,3.9c2.1,0,3.9-1.8,3.9-3.9c0-0.2,0-0.5-0.1-0.6h1.4v5.5
+                         c0,0.2-0.1,0.3-0.3,0.3H1.6z M11.7,2.9c0,0.2-0.1,0.3-0.3,0.3h-1.3c-0.2,0-0.3-0.1-0.3-0.3V1.6c0-0.2,0.1-0.3,0.3-0.3h1.3
+                         c0.2,0,0.3,0.1,0.3,0.3V2.9z"></path>
+                   </svg>
+                </a>
+                <a href="https://www.facebook.com/prokatostankino">
+                   <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                      width="60.734px" height="60.733px" viewBox="0 0 60.734 60.733" style="enable-background:new 0 0 60.734 60.733;"
+                      xml:space="preserve">
+                      <style type="text/css">
+                         .st0{fill:#413733;}
+                      </style>
+                      <path class="st0" d="M57.378,0.001H3.352C1.502,0.001,0,1.5,0,3.353v54.026c0,1.853,1.502,3.354,3.352,3.354h29.086V37.214h-7.914v-9.167h7.914
+                         v-6.76c0-7.843,4.789-12.116,11.787-12.116c3.355,0,6.232,0.251,7.071,0.36v8.198l-4.854,0.002c-3.805,0-4.539,1.809-4.539,4.462
+                         v5.851h9.078l-1.187,9.166h-7.892v23.52h15.475c1.852,0,3.355-1.503,3.355-3.351V3.351C60.731,1.5,59.23,0.001,57.378,0.001z"/></path>
+                   </svg>
+                </a>
+             </div>
+          </div>
+       </div>
+       <div class="copyright">
+          <div class="text">
+             <p>© 2013-2022 «Прокат Останкино»</p>
+             <p>Обращаем Ваше внимание на то, что данный интернет-сайт и его содержимое носит исключительно информационный характер и ни при каких условиях информационные материалы, каталоги товаров, статьи и цены, размещенные на сайте, не является публичной офертой, определяемой положениями Статьи 437 Гражданского кодекса РФ.</p>
+          </div>
+          <div class="text">
+          </div>
+          <div class="developed">
+             <img src="/img/develop.png" alt="Адвентор Лаб">
+             <div>
+                <p>Разработка сайта </p>
+                <a href="http://www.adventor.ru" target="_blank" rel="nofollow"> - Адвентор Лаб</a> 					
+             </div>
+             <button class="d-none" type="button" data-toggle="modal" data-target="#myModal">Launch modal</button>
+          </div>
+       </div>
+    </div>
+    <!-- Yandex.Metrika counter -->
+    <script type="text/javascript" >
+       (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+       m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+       (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+       
+       ym(28099008, "init", {
+            clickmap:true,
+            trackLinks:true,
+            accurateTrackBounce:true,
+            webvisor:true
+       });
+    </script>
+    <noscript>
+       <div><img src="https://mc.yandex.ru/watch/28099008" style="position:absolute; left:-9999px;" alt="" /></div>
+    </noscript>
+ </footer>
+
+
+
+
+ 

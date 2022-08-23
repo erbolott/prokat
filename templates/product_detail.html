@@ -1,0 +1,221 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+
+{% block content %}
+<main class="detail-page">
+    <div class="sale-banner">
+      <div class="container"></div>
+    </div>
+    <div class="container">
+      <div class="breadcrumbs">
+        <ul>
+          <li>
+            <a href="{% url 'home' %}">Главная</a>
+          </li>
+          <li><a href="{% url ''}"></a>{{product.category.title}}</a></li>
+          <li>{{product.title}}</li>
+        </ul>
+      </div>
+    </div>
+    <div class="container">
+      <div class="detail-product">
+        <div class="left">
+          <div class="slider-block">
+            <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+              <div class="carousel-inner">
+                <div class="carousel-item active">
+                  <a data-fancybox="gallery" href="{{product.image.url}}" style="background-image: url({{product.image.url}});height:500px !important;">
+                    <div class="img_src"></div>
+                  </a>
+                </div>
+                {% for img in images %}
+                <div class="carousel-item">
+                  <a data-fancybox="gallery" href="{{img.image.url}}" style="background-image: url({{img.image.url}});height:500px !important; ">
+                    <div class="img_src"></div>
+                  </a>
+                </div>
+                {% endfor %}
+              </div>
+              <ol class="carousel-indicators">
+                <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active">
+                  <div class="img_src" style="background-image: url({{product.image.url}}); ">
+                </li>
+                {% for img in images %}
+                <li data-target="#carouselExampleIndicators" data-slide-to="1,2,3">
+                  <div class="img_src" style="background-image: url({{img.image.url}}); ">
+                </li>
+                {% endfor %}
+              </ol>
+              <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                <span>
+                  <svg version="1.1" id="Слой_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 27 9" style="enable-background:new 0 0 27 9;" xml:space="preserve">
+                    <style type="text/css">
+                      .st0 {
+                        fill-rule: evenodd;
+                        clip-rule: evenodd;
+                        fill: #413733;
+                      }
+                    </style>
+                    <g>
+                      <path class="st0" d="M22,0l5,4.5L22,9V0z"></path>
+                      <path class="st0" d="M24,5V4H0v1H24"></path>
+                    </g>
+                  </svg>
+                </span>
+              </a>
+              <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                <span>
+                  <svg version="1.1" id="Слой_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 27 9" style="enable-background:new 0 0 27 9;" xml:space="preserve">
+                    <style type="text/css">
+                      .st0 {
+                        fill-rule: evenodd;
+                        clip-rule: evenodd;
+                        fill: #413733;
+                      }
+                    </style>
+                    <g>
+                      <path class="st0" d="M22,0l5,4.5L22,9V0z"></path>
+                      <path class="st0" d="M24,5V4H0v1H24"></path>
+                    </g>
+                  </svg>
+                </span>
+              </a>
+            </div>
+          </div>
+        </div>
+        <div class="right">
+          <div class="info">
+            <div class="title">
+              <h1>{{product.title}}</h1>
+            </div>
+            <div class="price">
+              <p>Стоимость аренды: <span>{{product.price}}</span> сомов </p>
+              <a href="/uslovija/">Условия проката</a>
+            </div>
+            <div class="faq">
+              <div class="komp">{{product.detail|safe}}</div>
+            </div>
+            <div class="about">
+              <h3>О товаре:</h3>
+              <ul>
+                <li>
+                  <span>Группа:</span>
+                  <span>женская костюмерная</span>
+                </li>
+                
+              </ul>
+            </div>
+            <div class="share-block">
+              <!-- share plugin -->
+              <span>Поделиться: <script src="//yastatic.net/es5-shims/0.0.2/es5-shims.min.js"></script>
+                <script src="//yastatic.net/share2/share.js"></script>
+                <div class="ya-share2" data-services="vkontakte,facebook,odnoklassniki,twitter,instagram,whatsapp"></div>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="container">
+      <div class="row">
+        <div class="title">
+          <h2>Условия и правила проката</h2>
+          <p>Костюмы и реквизиты</p>
+        </div>
+        <div class="conditions-n-rules">
+          <div class="item">
+            <div class="image wow fadeIn" data-wow-offset="400">
+              <img src="/img/ico/cond-ico1.svg" alt="" class="wow zoomIn" data-wow-offset="400">
+              <img src="/img/ico/step-arrow.svg" class="arrow wow zoomInLeft" alt="" data-wow-offset="400">
+            </div>
+            <div class="info wow fadeInUp" data-wow-offset="350">
+              <p class="name">Заказать пропуск</p>
+              <p>Чтобы попасть в &laquo;Прокат Останкино&raquo;, необходимо заранее (ЗА СУТКИ)</p>
+              <a href="/pass/" class="button">Заказать пропуск</a>
+              <span>
+                <p>По телефону: </p>
+                <a href="tel:8(495) 617-75-50">8(495) 617-75-50</a>
+              </span>
+            </div>
+          </div>
+          <div class="item">
+            <div class="image wow fadeIn" data-wow-offset="400" data-wow-delay="1s">
+              <img src="/img/ico/cond-ico2.svg" alt="" class="wow zoomIn" data-wow-delay="1s" data-wow-offset="400">
+              <img src="/img/ico/step-arrow.svg" class="arrow wow zoomInLeft" alt="" data-wow-delay="1s" data-wow-offset="400">
+            </div>
+            <div class="info wow fadeInUp" data-wow-delay="1s" data-wow-offset="350">
+              <p class="name">Пройти в ТТЦ "Останкино"</p>
+              <p>Для входа в ТТЦ "Останкино" при себе необходимо иметь паспорт, а на ребенка свидетельство о рождении.</p>
+              <a href="/files/svg.pdf" class="button">Распечатать схему</a>
+              <span>
+                <p class="left">Работаем по будням: </p>
+                <p> С 9:00 до17:45</p>
+              </span>
+              <span>
+                <p class="left">Перерыв: </p>
+                <p> с 13:00 до 13:45</p>
+              </span>
+            </div>
+          </div>
+          <div class="item">
+            <div class="image wow fadeIn" data-wow-offset="400" data-wow-delay="2s">
+              <img src="/img/ico/cond-ico3.svg" alt="" class="wow zoomIn" data-wow-delay="2s" data-wow-offset="400">
+              <img src="/img/ico/step-arrow.svg" class="arrow wow zoomInLeft" alt="" data-wow-delay="2s" data-wow-offset="400">
+            </div>
+            <div class="info wow fadeInUp" data-wow-delay="2s" data-wow-offset="350">
+              <p class="name">Оформить заказ</p>
+              <p>Вы отобрали необходимые СПС (одежду, обувь, реквизит и пр.) на всех складах, а заведующий складом выписал акт с указанием суммы проката</p>
+              <span>
+                <p class="left">Минимальный срок аренды - сутки</p>
+              </span>
+              <span>
+                <p class="left">Работем без залога</p>
+              </span>
+              <a href="/uslovija/" class="button">Условия проката</a>
+            </div>
+          </div>
+          <div class="item">
+            <div class="image wow fadeIn" data-wow-offset="400" data-wow-delay="3s">
+              <img src="/img/ico/cond-ico4.svg" alt="" class="wow zoomIn" data-wow-delay="3s" data-wow-offset="400">
+              <img src="/img/ico/step-arrow.svg" class="arrow" alt="">
+            </div>
+            <div class="info wow fadeInUp" data-wow-delay="3s" data-wow-offset="350">
+              <p class="name">Оплатить аренду</p>
+              <p>Вам необходимо пройти в комнату № 3-186 для заключения договора аренды и оплаты. <br> Оплата и заключение договора осуществляется только с предъявлением паспорта РФ. </p>
+              <a href="http://prokat-ostankino.ru/files/dogovor_pr.pdf" class="button">Скачать договор</a>
+              <span>
+                <a href="/uslovija/#ur">Информация для Юридических лиц</a>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="similar-prod">
+      <div class="container">
+        <div class="row">
+          <div class="title">
+            <h2>Похожие</h2>
+          </div>
+          <div class="nc-slider">
+            {% for prodd in similar_products %}
+            <div class="slide-item">
+              <div class="slide">
+                <div class="image">
+                  <a href="/product/{{prodd.id}}/{{prodd.slug}}">
+                    <img src="{{prodd.image.url}}" alt="{{prodd.title}}" title="Женский головной убор XIII-XVI веков (Русское Средневековье)">
+                  </a>
+                </div>
+                <a href="/product/{{prodd.id}}/{{prodd.slug}}" class="name">{{prodd.title}}</a>
+                <p class="price">цена: {{prodd.price}}сом.</p>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+{% endblock %}

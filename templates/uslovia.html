@@ -1,0 +1,320 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %} 
+<main class="conditions-page">
+    <div class="container">
+      <div class="breadcrumbs">
+        <ul>
+          <li>
+            <a href="{% url 'home' %}">Главная</a>
+          </li>
+          <li>Условия проката</li>
+        </ul>
+      </div>
+      <div class="title">
+        <h1>Условия и правила проката СПС</h1>
+        <p>(одежды, обуви, париков, реквизита, мебели и пр.)</p>
+      </div>
+      <div class="conditions-list">
+        <div class="cond-item wow fadeInUp">
+          <div class="up-row">
+            <div class="image wow fadeIn" data-wow-offset="0">
+              <img src="{% static 'img/ico/cond-ico1.svg' %}" alt="" class="wow zoomIn" data-wow-offset="0">
+            </div>
+            <p>Заказать пропуск</p>
+            <a href="{% url 'order' %}">Заказать пропуск</a>
+          </div>
+          <div class="text">
+            <div class="arrow wow slideInDown" data-wow-delay="1s" data-wow-duration="2s"></div>
+            <p> &quot;Прокат Останкино&quot; находится в самом здании Телецентра &quot;Останкино&quot; АСК - 1 по адресу ул. Ак. Королева, 12. Чтобы попасть в &laquo;Прокат Останкино&raquo;, необходимо заранее (ЗА СУТКИ) заказать пропуск:</p>
+            <ul>
+              <li> заполнить <a href="/pass/">Онлайн форму</a> для заказа пропуска. Если у Вас билеты на г. Москва,&nbsp; просьба при заказе пропуска указать номер и дату (в примечании). </li>
+            </ul>
+            <p> Если у Вас возникли вопросы или у Вас возникли проблемы по пропуску, то просьба обращаться по:</p>
+            <ul>
+              <li>
+                <p> по электронной почте:&nbsp; <strong>
+                    <a href="http://prokat-ostankino.ru/editor/modules/catalog/detail.php?id=1&amp;catalog_id=conditions&amp;path=/uslovija">prokat@telecenter.ru</a>
+                  </strong>
+                </p>
+              </li>
+              <li> по телефону: <a href="tel:8(495)617-75-50">8(495) 617-75-50</a>
+              </li>
+            </ul>
+            <p class="sub-title"> При заказе пропуска необходимо указать:</p>
+            <ul class="check-style">
+              <li>
+                <p> Фамилию Имя Отчество;</p>
+              </li>
+              <li>
+                <p> паспортные данные (серия и номер);</p>
+              </li>
+              <li>
+                <p> дату визита и контактный номер телефона;</p>
+              </li>
+              <li>
+                <p> для пропуска на ребенка нужны данные Свидетельства о рождении;</p>
+              </li>
+              <li>
+                <p> регистрацию/временную регистрацию (обращаем Ваше внимание,&nbsp; что регистрация должна быть г. Москва или МО) или билет на г. Москва, датой не превышающей 90 дней (указать в примечании);</p>
+              </li>
+              <li>
+                <p> электронную почту;</p>
+              </li>
+              <li>
+                <p> контактный номер.</p>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="cond-item wow fadeInUp">
+          <div class="up-row">
+            <div class="image wow fadeIn" data-wow-offset="0">
+              <img src="{% static 'img/ico/cond-ico2.svg' %}" alt="" class="wow zoomIn" data-wow-offset="0">
+            </div>
+            <p>Как пройти в ТТЦ "Останкино"</p>
+            <a href="/files/svg.pdf" target="_blank">Распечатать схему</a>
+          </div>
+          <div class="text">
+            <div class="arrow wow slideInDown" data-wow-delay="1s" data-wow-duration="2s"></div>
+            <p style="text-align: center;"> Рады Вас видеть!</p>
+            <p> Для входа в Прокат ТТЦ &quot;Останкино&quot; при себе необходимо иметь паспорт (если нет постоянной регистрации в г. Москве или МО, то временнную регистрацию,&nbsp; либо билеты в г. Москва,&nbsp; не позднее 3-х месячной давности), а на ребенка свидетельство о рождении.</p>
+            <p> Вход осуществляется через КПП №17 (ближе к монорельсовой дороге). У Росгвардейца, который стоит слева у турникетов, Вы произносите кодовые слова: &laquo;Я в прокат по спискам&raquo;, называете ФИО и показываете документы (оригиналы).</p>
+            <p>
+              <u>
+                <strong>После этого по внутреннему телефону (стоит рядом) набираете номер 75-50 и к Вам приходит сотрудник для сопровождения.</strong>
+              </u>
+            </p>
+            <p> Перед турникетами,&nbsp; справа стоит стойка с листовками-схемами, где указано расположения костюмерных и складов.&nbsp;</p>
+            <p> Проходите через пост, через улицу, поднявшись по лестнице заходите в само здание. Такие же слова говорите еще одному Росгвардейцу и попадаете в холл.</p>
+            <p> Пройдя через турникет,&nbsp; справа стоит стойка с листовками-схемами, где указано расположения костюмерных и складов. Согласно схеме пройдите по указателяк к нужному Вам отделу.</p>
+            <p class="sub-title"> Номера комнат:</p>
+            <ul>
+              <li>
+                <p>
+                  <b>Женская костюмерная № 1-81</b>
+                </p>
+              </li>
+              <li>
+                <p>
+                  <b>Мужская костюмерная № 1-67</b>
+                </p>
+              </li>
+            </ul>
+            <p> &nbsp;</p>
+            <p> Чтобы попасть на склад с военными костюмами, реквизита, мебели, париков, Вам необходимо от охранного поста пройти мимо гардероба, кафе, пройти по коридору и выйти в центральный холл с 5-ю лифтами.</p>
+            <br />
+            <ul>
+              <li>
+                <p>
+                  <b>Военная костюмерная № 1-190</b>&nbsp; &nbsp;Военная костюмерная находится в конце транспортного коридора от лифтов налево.
+                </p>
+              </li>
+            </ul>
+            <ul>
+              <li>
+                <p>
+                  <b>Склад париков № 3-187б&nbsp;</b>находится на 3 этаже (из лифтов налево).
+                </p>
+              </li>
+              <li>
+                <p>
+                  <b>Склад реквизита,&nbsp; бутафории, техники, оружия и мебели № 3-195</b> находится на 3 этаже (из лифтов налево).
+                </p>
+              </li>
+            </ul>
+            <p> &nbsp;</p>
+            <p> Обращаем Ваше внимание, что из-за дополнительных проверок пропусков, списки на посты подаются не ранее <u>
+                <strong>09:15</strong>
+              </u>
+            </p>
+            <p> &nbsp;</p>
+            <p style="text-align: center;"> Ждем Вас в гости!</p>
+            <br />
+          </div>
+        </div>
+        <div class="cond-item wow fadeInUp">
+          <div class="up-row">
+            <div class="image wow fadeIn" data-wow-offset="0">
+              <img src="{% static 'img/ico/cond-ico3.svg' %}" alt="" class="wow zoomIn" data-wow-offset="0">
+            </div>
+            <p>Оформление заказа</p>
+            <a href="/files/dogovor_pr.pdf" target="_blank">Скачать договор</a>
+            <a href="/files/pravila_prokata_sps.pdf" target="_blank">Правила проката СПС</a>
+          </div>
+          <div class="text">
+            <div class="arrow wow slideInDown" data-wow-delay="1s" data-wow-duration="2s"></div>
+            <p> После того, как Вы ознакомились <u>с правилами предоставления и использования сценично-постановочных средств</u>, отобрали необходимые СПС (одежду, обувь, реквизит и пр.) на всех складах, а заведующие костюмерных&nbsp; и складов выписали акты с указанием суммы проката, Вам необходимо пройти в комнату № 3-186 для заключения договора аренды и оплаты. </p>
+            <p>
+              <a class="download" download="" href="/files/pravila_prokata_sps.pdf">
+                <img alt="" src="http://prokat-ostankino.ru/img/ico/download.png" />&nbsp; <b>Правила проката СПС</b>&nbsp;(Правила о предоставлении сценично-постановочных средств). </a>
+            </p>
+            <p>
+              <a class="download" download="" href="http://prokat-ostankino.ru/files/dogovor_pr.pdf">
+                <img alt="" src="http://prokat-ostankino.ru/img/ico/download.png" />&nbsp; <b>Скачать Договор аренды</b>&nbsp;(Договора о предоставлении сценично-постановочных средств). </a>
+            </p>
+            <p> Вы оплачиваете только сумму аренды СПС за тот период, на который Вы арендуете.&nbsp;</p>
+            <p> Оплата и заключение договора осуществляется только с предъявлением оригинала паспорта РФ.</p>
+            <p>
+              <u>Если у Вас нет времени и возможности приехать, отобрать или Вам необходимо &quot;составить картинку&quot; нужных Вам костюмов,&nbsp; реквизита,&nbsp; мебели,&nbsp; париков, образов и т.д., мы рады предложить Вам услугу по подбору, стоимость составляет 500руб. с НДС</u>
+            </p>
+            <p> Работаем без залога</p>
+            <div class="advantage-block">
+              <p> Минимальный срок аренды - 1 сутки</p>
+              <p> Цены указаны за 1 сутки</p>
+            </div>
+            <p align="center">
+              <strong>Как считаются СУТКИ</strong>
+            </p>
+            <table>
+              <tbody>
+                <tr>
+                  <td rowspan="5" style="width: 30%;">
+                    <p align="center"> 1 сутки</p>
+                    <p align="center"> (периоды расчета)</p>
+                  </td>
+                  <td>
+                    <p align="center"> с&nbsp; <strong>ПН</strong>. 09-00&nbsp; &nbsp; до&nbsp;&nbsp; <strong>ВТ</strong>. 17-45 </p>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <p align="center"> с <strong>ВТ</strong>. 09-00 &nbsp;&nbsp;&nbsp;до &nbsp;&nbsp; <strong>СР</strong>.17-45 </p>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <p align="center"> с <strong>СР</strong>. 09-00 &nbsp;&nbsp;&nbsp;до &nbsp;&nbsp; <strong>ЧТ</strong>.17-45 </p>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <p align="center"> с <strong>ЧТ</strong>. 09-00 &nbsp;&nbsp;&nbsp;до &nbsp;&nbsp; <strong>ПТ</strong>.17-45 </p>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <p align="center"> с <strong>ПТ</strong>. 09-00 &nbsp;&nbsp;&nbsp;до &nbsp;&nbsp; <strong>ПН</strong>.12-00 </p>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <p align="center">
+                      <u>Исключение</u>
+                    </p>
+                  </td>
+                  <td>
+                    <p> После любого Федерального праздника РФ, на следующий рабочий день <strong>сдача до 12-00</strong> &nbsp;- считается как расчет с &nbsp; <strong>ПТ</strong>. 09-00 &nbsp;&nbsp;&nbsp;до &nbsp;&nbsp; <strong>ПН</strong>.12-00, <u>после 12-00 наступают следующие сутки.</u>
+                    </p>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <div style="text-align: center;"> &nbsp;</div>
+            <div id="cke_pastebin" style="position: absolute; left: -1000px; top: 1008px; width: 1px; height: 1px; overflow: hidden;"> Обратить внимание - в новогодние и майские праздники действует повышающий коэффициент!&nbsp;</div>
+            <div id="cke_pastebin" style="position: absolute; left: -1000px; top: 1008px; width: 1px; height: 1px; overflow: hidden;"> Вы попадаете на январские праздники,&nbsp; забрать нужно&nbsp; будет 30-12-21 и вернуть 10-01-22 до 12:00 = 1,5 суткам</div>
+          </div>
+        </div>
+        <div class="cond-item wow fadeInUp">
+          <div class="up-row">
+            <div class="image wow fadeIn" data-wow-offset="0">
+              <img src="{% static 'img/ico/cond-ico4.svg' %}" alt="" class="wow zoomIn" data-wow-offset="0">
+            </div>
+            <p>Забронировать костюм/реквизит</p>
+          </div>
+          <div class="text">
+            <div class="arrow wow slideInDown" data-wow-delay="1s" data-wow-duration="2s"></div>
+            <p>
+              <b>Вы можете забронировать отобранные костюмы/реквизит! Бронь - гарантия того, что в нужный Вам день костюмы/реквизит будут в наличии.</b>
+            </p>
+            <ul>
+              <li>
+                <p>
+                  <u>Бронь костюмов/реквизита составляет 360руб.,единоразово на каждом складе лично или по&nbsp;WhatsApp: <a href="tel:8(903) 504-07-96">8-903-504-07-96</a>
+                  </u>
+                </p>
+              </li>
+              <li>
+                <p> Бронь не входит в стоимость аренды костюмов/реквизита, оформляется заранее и не возвращается.</p>
+              </li>
+              <li>
+                <p> На данный момент идет изменение цен и ведутся работы по изменению ценников,&nbsp; цены могут немного отличаться! <br /> Для проверки актуальности цены просьба делать запрос на&nbsp; <u>WhatsApp: <a href="tel:8(903) 504-07-96">8-903-504-07-96</a>
+                  </u>
+                  <a href="tel:8(903) 504-07-96">&nbsp;</a>
+                  <br /> Приносим Вам свои извинения за доставленные неудобства.&nbsp;
+                </p>
+              </li>
+              <li>
+                <div> Обратить внимание - в новогодние и майские праздники действует повышающий коэффициент! <br /> 1 сутки = 1,5 суткам </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="jur-info">
+        <div class="title">
+          <a name="ur"></a>
+          <p>Информация для Юридических лиц</p>
+        </div>
+        <div class="aiw">
+          <a href="/files/dogovor_pr.pdf" target="_blank">Скачать договор</a>
+          <a href="/files/pravila_prokata_sps.pdf" target="_blank">Правила проката СПС</a>
+        </div>
+        <div class="text">
+          <p> После того, как Вы ознакомились <u>с правилами предоставления и использования сценично-постановочных средств</u>, отобрали необходимые СПС (одежду, обувь, реквизит и пр.) на всех складах, а заведующие костюмерных и складов выписали акты с указанием суммы проката, Вам необходимо пройти в комнату № 3-186 для заключения договора аренды и оплаты. </p>
+          <ul class="check-style">
+            <li>
+              <p> если вы хотите произвести оплату по безналичному расчёту</p>
+            </li>
+            <li>
+              <p> если вы планируете пользоваться услугами &quot;Прокат Останкино&quot; не разово в течение года,</p>
+            </li>
+          </ul>
+          <p>
+            <b>то можно :</b>
+          </p>
+          <ol>
+            <li>
+              <p>
+                <b>Заключить договор с ТТЦ &quot;Останкино&quot;.</b> Договор заключается с момента вашего обращения к нам и до конца календарного года. Пакет документов стандартный для всех. Срок заключения договора - не менее 2-х недель.&nbsp; &nbsp; &nbsp; &nbsp;
+              </p>
+              <p>
+                <a class="download" download="" href="/files/pravila_prokata_sps.pdf">
+                  <img alt="" src="http://prokat-ostankino.ru/img/ico/download.png" />&nbsp; <b>Правила проката СПС</b>&nbsp;(Правила о предоставлении сценично-постановочных средств). </a>
+              </p>
+              <p>
+                <a class="download" download="" href="http://prokat-ostankino.ru/files/dogovor_pr.pdf">
+                  <img alt="" src="http://prokat-ostankino.ru/img/ico/download.png" />&nbsp; <b>Скачать Договор аренды</b>&nbsp;(Договора о предоставлении сценично-постановочных средств). </a>
+              </p>
+            </li>
+            <li>
+              <p>
+                <b>Оформить гарантийное письмо от вашей организации.</b>
+              </p>
+            </li>
+          </ol>
+          <p> По вопросу заключения договора и дополнительным вопросам следует обращаться к Начальнику участка по прокату СПС -&nbsp; <b>Савиной Серафиме Леонидовне</b>
+          </p>
+          <ul>
+            <li>
+              <p> по телефону: <span>
+                  <a href="tel:8(495) 617-81-00">8(495) 617-81-00</a>
+                </span>
+              </p>
+            </li>
+            <li>
+              <p> по электронной почте: <a href="mailto:Serafima.Savina@telecenter.ru">Serafima.Savina@telecenter.ru</a>
+              </p>
+            </li>
+            <li>
+              <p> WhatsApp: <a href="tel:8(903) 504-07-96">8-903-504-07-96</a>
+              </p>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    </div>
+  </main>
+{% endblock %}

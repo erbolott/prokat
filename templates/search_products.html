@@ -1,0 +1,473 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load mptt_tags %}
+
+{% block title %}{{settings.title}} | {{query}} результат{% endblock %}
+
+
+{% block content %}
+<main class="catalog-page">
+    <div class="sale-banner">
+       <div class="container">
+       </div>
+    </div>
+    <div class="container">
+       <div class="breadcrumbs">
+          <ul>
+             <li><a href="{% url 'home' %}">Главная</a></li>
+             <li>{{query}}</li>
+          </ul>
+       </div>
+    </div>
+    <div class="container">
+       <div class="title">
+          <h1></h1>
+          <p>
+             <span style="font-size:16px;"><span style="font-family: arial,helvetica,sans-serif;"><strong>По вопросам наличия костюмов, размерам, брони звонить сразу в мужскую костюмерную 8-495-617-72-42. <span style="font-size:16px;"><span style="font-family: arial,helvetica,sans-serif;"><strong>ВНИМАНИЕ! СТОИМОСТЬ АРЕНДЫ ИЗМЕНИЛАСЬ! ЦЕНУ УТОЧНЯЙТЕ У КОСТЮМЕРА.</strong></span></span></strong></span></span>
+          </p>
+       </div>
+    </div>
+    <div class="container">
+       <div class="filtr-block">
+          <div class="filtr">
+             <form method="post" action="/search/" class="search">
+              {% csrf_token %}
+                <label for="">
+                   <input type="search" name="query" id="query" placeholder="Поиск по каталогу"
+                      autocomplete="off" value="">
+                   <button type="submit">
+                      <svg
+                         xmlns="http://www.w3.org/2000/svg"
+                         xmlns:xlink="http://www.w3.org/1999/xlink"
+                         width="21px" height="21px">
+                         <path fill-rule="evenodd" fill="rgb(255, 255, 255)"
+                            d="M19.755,18.579 L14.947,13.771 C16.138,12.318 16.857,10.457 16.857,8.428 C16.857,3.775 13.081,-0.000 8.428,-0.000 C3.771,-0.000 -0.000,3.775 -0.000,8.428 C-0.000,13.081 3.771,16.857 8.428,16.857 C10.457,16.857 12.314,16.142 13.767,14.950 L18.575,19.754 C18.902,20.081 19.428,20.081 19.755,19.754 C20.081,19.432 20.081,18.901 19.755,18.579 ZM8.428,15.179 C4.702,15.179 1.673,12.151 1.673,8.428 C1.673,4.706 4.702,1.673 8.428,1.673 C12.151,1.673 15.183,4.706 15.183,8.428 C15.183,12.151 12.151,15.179 8.428,15.179 Z"></path>
+                      </svg>
+                   </button>
+                   <div class="search-list" id="search_result_container">
+                   </div>
+                </label>
+             </form>
+             <button id="show-filtr">Показать фильтр</button>
+             <form action="" class="sort">
+                <label for="" class="sort-select">
+                  <div class="dropdown-wrapper select_2">
+                    <div class="ae-dropdown dropdown">
+                      <p>Сортировка:</p>
+                      <div class="ae-select">
+                        <span class="ae-select-content">По умолчанию</span>
+                        <img src="{% static 'img/ico/arrow-down.png' %}" alt="">
+                      </div>
+                      <ul class="drop-menu ae-hide">
+                        <li class="selected">
+                          <a href="?sort">По умолчанию</a>
+                        </li>
+                        <li>
+                          <a href="?sort=sf8">По цене (дешёвые)</a>
+                        </li>
+                        <li>
+                          <a href="?sort=sf8_r">По цене (дорогие)</a>
+                        </li>
+                        <li>
+                          <a href="?sort=sf1">По алфавиту</a>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </label>
+                <label for="">
+                  <div class="dropdown-wrapper select_6">
+                    <div class="ae-dropdown dropdown">
+                      <div class="ae-select">
+                        <span class="ae-select-content">Категория</span>
+                        <a href="" class="close">
+                          <img class="close" src="{% static 'img/ico/filter-reset.svg' %}" alt="">
+                        </a>
+                        <img src="{% static 'img/ico/arrow-down.png' %}" alt="">
+                      </div>
+                      <ul class="drop-menu ae-hide have_list">
+                        <li class="all">
+                          <label class="checkbox">
+                            <input type="checkbox" id="" hidden="" checked>
+                            <span></span>
+                            <p>Отметить все</p>
+                          </label>
+                        </li>
+                        <li>
+                          <label class="checkbox value">
+                            <input type="checkbox" class="styleCheck" name="cat[]" data-name="Костюмы" hidden="" value="250">
+                            <span></span>
+                            <p>Костюмы</p>
+                          </label>
+                        </li>
+                        <li>
+                          <label class="checkbox value">
+                            <input type="checkbox" class="styleCheck" name="cat[]" data-name="Головные уборы" hidden="" value="251">
+                            <span></span>
+                            <p>Головные уборы</p>
+                          </label>
+                        </li>
+                        <li>
+                          <label class="checkbox value">
+                            <input type="checkbox" class="styleCheck" name="cat[]" data-name="Парики" hidden="" value="252">
+                            <span></span>
+                            <p>Парики</p>
+                          </label>
+                        </li>
+                        <li>
+                          <label class="checkbox value">
+                            <input type="checkbox" class="styleCheck" name="cat[]" data-name="Обувь" hidden="" value="253">
+                            <span></span>
+                            <p>Обувь</p>
+                          </label>
+                        </li>
+                        <li class="st">
+                          <button>Применить</button>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </label>
+                <label for="">
+                  <div class="dropdown-wrapper select_4">
+                    <div class="ae-dropdown dropdown">
+                      <div class="ae-select">
+                        <span class="ae-select-content">Размер</span>
+                        <a href="" class="close">
+                          <img class="close" src="{% static 'img/ico/filter-reset.svg' %}" alt="">
+                        </a>
+                        <img src="{% static 'img/ico/arrow-down.png' %}" alt="">
+                      </div>
+                      <ul class="drop-menu ae-hide">
+                        <li class="all">
+                          <label class="checkbox">
+                            <input type="checkbox" id="" hidden="">
+                            <span></span>
+                            <p>Отметить все</p>
+                          </label>
+                        </li>
+                        <li>
+                          <label class="checkbox value">
+                            <input type="checkbox" class="sizeCheck" hidden="" unchecked value="36">
+                            <span></span>
+                            <p>36</p>
+                          </label>1
+                        </li>
+                        <li>
+                          <label class="checkbox value">
+                            <input type="checkbox" class="sizeCheck" hidden="" unchecked value="37">
+                            <span></span>
+                            <p>37</p>
+                          </label>1
+                        </li>
+                        <li>
+                          <label class="checkbox value">
+                            <input type="checkbox" class="sizeCheck" hidden="" unchecked value="38">
+                            <span></span>
+                            <p>38</p>
+                          </label>1
+                        </li>
+                        <li>
+                          <label class="checkbox value">
+                            <input type="checkbox" class="sizeCheck" hidden="" unchecked value="39">
+                            <span></span>
+                            <p>39</p>
+                          </label>1
+                        </li>
+                        <li>
+                          <label class="checkbox value">
+                            <input type="checkbox" class="sizeCheck" hidden="" unchecked value="42-43">
+                            <span></span>
+                            <p>42-43</p>
+                          </label>1
+                        </li>
+                        <li>
+                          <label class="checkbox value">
+                            <input type="checkbox" class="sizeCheck" hidden="" unchecked value="42-44">
+                            <span></span>
+                            <p>42-44</p>
+                          </label>2
+                        </li>
+                        <li>
+                          <label class="checkbox value">
+                            <input type="checkbox" class="sizeCheck" hidden="" unchecked value="42">
+                            <span></span>
+                            <p>42</p>
+                          </label>8
+                        </li>
+                        <li>
+                          <label class="checkbox value">
+                            <input type="checkbox" class="sizeCheck" hidden="" unchecked value="44">
+                            <span></span>
+                            <p>44</p>
+                          </label>14
+                        </li>
+                        <li>
+                          <label class="checkbox value">
+                            <input type="checkbox" class="sizeCheck" hidden="" unchecked value="44-46">
+                            <span></span>
+                            <p>44-46</p>
+                          </label>2
+                        </li>
+                        <li>
+                          <label class="checkbox value">
+                            <input type="checkbox" class="sizeCheck" hidden="" unchecked value="44-50">
+                            <span></span>
+                            <p>44-50</p>
+                          </label>1
+                        </li>
+                        <li>
+                          <label class="checkbox value">
+                            <input type="checkbox" class="sizeCheck" hidden="" unchecked value="45">
+                            <span></span>
+                            <p>45</p>
+                          </label>1
+                        </li>
+                        <li>
+                          <label class="checkbox value">
+                            <input type="checkbox" class="sizeCheck" hidden="" unchecked value="46">
+                            <span></span>
+                            <p>46</p>
+                          </label>27
+                        </li>
+                        <li>
+                          <label class="checkbox value">
+                            <input type="checkbox" class="sizeCheck" hidden="" unchecked value="46-48">
+                            <span></span>
+                            <p>46-48</p>
+                          </label>15
+                        </li>
+                        <li>
+                          <label class="checkbox value">
+                            <input type="checkbox" class="sizeCheck" hidden="" unchecked value="48">
+                            <span></span>
+                            <p>48</p>
+                          </label>56
+                        </li>
+                        <li>
+                          <label class="checkbox value">
+                            <input type="checkbox" class="sizeCheck" hidden="" unchecked value="48-50">
+                            <span></span>
+                            <p>48-50</p>
+                          </label>23
+                        </li>
+                        <li>
+                          <label class="checkbox value">
+                            <input type="checkbox" class="sizeCheck" hidden="" unchecked value="48-54">
+                            <span></span>
+                            <p>48-54</p>
+                          </label>1
+                        </li>
+                        <li>
+                          <label class="checkbox value">
+                            <input type="checkbox" class="sizeCheck" hidden="" unchecked value="50-52">
+                            <span></span>
+                            <p>50-52</p>
+                          </label>28
+                        </li>
+                        <li>
+                          <label class="checkbox value">
+                            <input type="checkbox" class="sizeCheck" hidden="" unchecked value="50">
+                            <span></span>
+                            <p>50</p>
+                          </label>58
+                        </li>
+                        <li>
+                          <label class="checkbox value">
+                            <input type="checkbox" class="sizeCheck" hidden="" unchecked value="52-54">
+                            <span></span>
+                            <p>52-54</p>
+                          </label>6
+                        </li>
+                        <li>
+                          <label class="checkbox value">
+                            <input type="checkbox" class="sizeCheck" hidden="" unchecked value="52">
+                            <span></span>
+                            <p>52</p>
+                          </label>29
+                        </li>
+                        <li>
+                          <label class="checkbox value">
+                            <input type="checkbox" class="sizeCheck" hidden="" unchecked value="54">
+                            <span></span>
+                            <p>54</p>
+                          </label>16
+                        </li>
+                        <li>
+                          <label class="checkbox value">
+                            <input type="checkbox" class="sizeCheck" hidden="" unchecked value="56">
+                            <span></span>
+                            <p>56</p>
+                          </label>6
+                        </li>
+                        <li>
+                          <label class="checkbox value">
+                            <input type="checkbox" class="sizeCheck" hidden="" unchecked value="58-60">
+                            <span></span>
+                            <p>58-60</p>
+                          </label>1
+                        </li>
+                        <li class="st">
+                          <button>Применить</button>
+                        </li>
+                      </ul>
+                      <input type="hidden" name="sf4" value="">
+                    </div>
+                  </div>
+                </label>
+                <label for="">
+                  <div class="dropdown-wrapper select_5">
+                    <div class="ae-dropdown dropdown">
+                      <div class="ae-select">
+                        <span class="ae-select-content">Цена</span>
+                        <a href="" class="close">
+                          <img class="close" src="{% static 'img/ico/filter-reset.svg' %}" alt="">
+                        </a>
+                        <img src="{% static 'img/ico/arrow-down.png' %}" alt="">
+                      </div>
+                      <ul class="drop-menu ae-hide">
+                        <li class="selected hidden">
+                          <a>Цена</a>
+                        </li>
+                        <li>
+                          <!-- <p><label for="amount">Price range:</label><input type="text" id="amount" readonly style="border:0; color:#f6931f; font-weight:bold;"></p><div id="slider-range"></div> -->
+                          <div class="range-slider">
+                            <input type="text" class="js-range-slider" value="" />
+                          </div>
+                          <div class="extra-controls">
+                            <input type="text" name="sf8_from" maxlength="4" value="0" class="inp js-from" />
+                            <input type="text" name="sf8_to" maxlength="4" value="30000" class="inp js-to" />
+                          </div>
+                          <button>Применить</button>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </label>
+                <div class="extFilter">
+                  <label>
+                    <input type="checkbox" name="sf15[]" value="мальчик"> мальчик (1) </label>
+                  <label>
+                    <input type="checkbox" name="sf15[]" value="мужские"> мужские (147) </label>
+                </div>
+                <button class="fly" disabled>Очистить</button>
+              </form>
+          </div>
+          <a href="/uslovija/">Условия проката</a>
+       </div>
+    </div>
+    <div class="container">
+       <div class="inner-catalog">
+          <div class="sidebar">
+             <p>Категории</p>
+             <div class="side-nav">
+                <ul>
+                    {% recursetree category %}
+                   <li><a  href="{% url 'category_product' node.id node.slug %}">{{ node.title }}</a></li>
+                   {% endrecursetree %}
+                </ul>
+             </div>
+          </div>
+          
+          <div class="right">
+             <div class="items">
+                {% for pp in page_obj  %}
+                <div class="item">
+                   <div class="image">
+                      <a href="/product/{{pp.id}}/{{pp.slug}}">
+                      <img src="{{pp.image.url}}" alt="Норманнский шлем с кольчужной защитой латунь"
+                         title="{{pp.title}}">
+                     </a>
+                   </div>
+                   <div class="info">
+                      <p class="name"><a href="/product/{{pp.id}}/{{pp.slug}}">{{pp.title}}</a></p>
+                      <div class="price">
+                         <span>
+                            <p>Цена: </p>
+                         </span>
+                         <span>
+                            <p>{{pp.price}} руб.</p>
+                         </span>
+                      </div>
+                      <a href="/product/{{pp.id}}/{{pp.slug}}" class="more">
+                         <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            xmlns:xlink="http://www.w3.org/1999/xlink"
+                            width="20px" height="13px">
+                            <path fill-rule="evenodd" fill="rgb(217, 167, 86)"
+                               d="M19.845,6.896 C19.667,7.145 15.415,13.000 9.986,13.000 C4.556,13.000 0.304,7.145 0.126,6.896 C-0.043,6.660 -0.043,6.339 0.126,6.103 C0.304,5.853 4.556,-0.000 9.986,-0.000 C15.415,-0.000 19.667,5.853 19.845,6.103 C20.014,6.339 20.014,6.660 19.845,6.896 ZM9.986,1.345 C5.977,1.345 2.521,5.228 1.497,6.499 C2.522,7.769 5.986,11.655 9.986,11.655 C13.994,11.655 17.450,7.771 18.475,6.500 C17.449,5.229 13.985,1.345 9.986,1.345 ZM9.986,10.534 C7.807,10.534 6.035,8.724 6.035,6.500 C6.035,4.275 7.807,2.465 9.986,2.465 C12.164,2.465 13.936,4.275 13.936,6.500 C13.936,8.724 12.164,10.534 9.986,10.534 ZM9.986,3.810 C8.533,3.810 7.352,5.016 7.352,6.500 C7.352,7.983 8.533,9.189 9.986,9.189 C11.438,9.189 12.619,7.983 12.619,6.500 C12.619,5.016 11.438,3.810 9.986,3.810 Z"></path>
+                         </svg>
+                         Подробнее
+                      </a>        
+                   </div>
+                </div>
+                {% endfor %}
+             </div>
+             <div class="preloader-block">
+                <svg width="38" height="38" viewBox="0 0 38 38" xmlns="http://www.w3.org/2000/svg">
+                   <defs>
+                      <linearGradient x1="8.042%" y1="0%" x2="65.682%" y2="23.865%" id="a">
+                         <stop stop-color="#000" stop-opacity="0" offset="0%"></stop>
+                         <stop stop-color="#000" stop-opacity=".631" offset="63.146%"></stop>
+                         <stop stop-color="#000" offset="100%"></stop>
+                      </linearGradient>
+                   </defs>
+                   <g fill="none" fill-rule="evenodd">
+                      <g transform="translate(1 1)">
+                         <path d="M36 18c0-9.94-8.06-18-18-18" id="Oval-2" stroke="url(#a)" stroke-width="2">
+                            <animateTransform
+                               attributeName="transform"
+                               type="rotate"
+                               from="0 18 18"
+                               to="360 18 18"
+                               dur="0.9s"
+                               repeatCount="indefinite"></animateTransform>
+                         </path>
+                         <circle fill="#000" cx="36" cy="18" r="1">
+                            <animateTransform
+                               attributeName="transform"
+                               type="rotate"
+                               from="0 18 18"
+                               to="360 18 18"
+                               dur="0.9s"
+                               repeatCount="indefinite"></animateTransform>
+                         </circle>
+                      </g>
+                   </g>
+                </svg>
+             </div>
+             <!-- pogination moment  -->
+
+             {% if page_obj.has_other_pages %} <!-- проверка на страницы -->
+             <div class="pagination">
+                <ul>
+                  <!-- check button pogination №1  -->
+                  {% if page_obj.has_previous %}
+                  <li class="next"><a href="?page={{page_obj.previous_page_number}}"><img style="transform: rotate(180deg);" src="{% static 'img/ico/arrow.svg' %}" alt="Следующая"/></a></li>
+                  {% endif %}
+                  <!-- endcheck button pogination №1 -->
+
+                  {% for p in page_obj.paginator.page_range %} <!-- вывод пагинаций -->
+                  {% if page_obj.number == p %}
+                   <li><a class="active">{{p}}</a></li>  
+                  {% elif p >= page_obj.number|add:-7 and p <= page_obj.number|add:7 %}
+                   <li><a href="?page={{p}}">{{p}}</a></li>
+                  {% endif %}
+
+                    {% endfor %}
+                     
+                    <!-- check button pogination №2  -->
+                    {% if page_obj.has_next %}
+                    <li class="next"><a href="?page={{page_obj.next_page_number}}"><img src="{% static 'img/ico/arrow.svg' %}" alt="Следующая"/></a></li>
+                    {% endif %}
+                    <!-- endcheck button pogination №2 -->
+
+                </ul>
+             </div>
+             {% endif %}
+             <!-- endpogination moment  -->
+          </div>
+       </div>
+    </div>
+ </main>
+{% endblock %}

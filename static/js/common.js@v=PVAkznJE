@@ -1,0 +1,776 @@
+(function () {
+    "use strict";
+    var toggles = document.querySelectorAll(".c-hamburger");
+    for (var i = toggles.length - 1; i >= 0; i--) {
+        var toggle = toggles[i];
+        toggleHandler(toggle);
+    }
+
+    function toggleHandler(toggle) {
+        toggle.addEventListener("click", function (e) {
+            e.preventDefault();
+            (this.classList.contains("is-active") === !0) ? this.classList.remove("is-active") : this.classList.add("is-active");
+        });
+    }
+})();
+
+
+
+$('ul.tabs__caption').on('click', 'li:not(.active)', function () {
+    $(this)
+        .addClass('active').siblings().removeClass('active')
+        .closest('div.tabs').find('div.tabs__content').removeClass('active').eq($(this).index()).addClass('active');
+
+});
+
+
+//Функция подсчёта порядкового номера визитёра
+function setNumberRow() {
+    var rows = $(".field.visitors-info");
+    for (var r = 0; r < rows.length; r++) {
+        $(rows[r]).attr("id", "visitor" + r).find("input[type=radio]").attr("name", "docType" + r);
+        visitorInit(r);
+    }
+}
+
+//Инициализация формы заявки на пропуск
+function visitorInit(memberCount) {
+    $("#visitor" + memberCount + " .docNumber").mask("9999 999999");
+    $("#visitor" + memberCount + " .pas").off("click").on("click", function () {
+        $("#visitor" + memberCount + " .docNumber").val("").attr("placeholder", "1234 123456").mask("9999 999999");
+    });
+    $("#visitor" + memberCount + " .svid").off("click").on("click", function () {
+        $("#visitor" + memberCount + " .docNumber").val("").attr("placeholder", "III-МЮ № 123456").mask("***-** № 999999");
+    });
+    $(".fio").on("keydown keypress keyup", function (e) {
+        $(this).val($(this).val().replace(/([^ А-Яа-яёЁ-]+)/gmi, ''));
+    });
+}
+
+//Функция, определяющая внешний вид фильтра (активны - не активный), а так же кнопки "Очистить" на момент загрузки страницы и в ходе использования фильтров
+function defCheckAll(parentClass){
+    var $checkedInput = $(parentClass + " .drop-menu .value input:checked"),
+        $allInput = $(parentClass + " .drop-menu .value input"),
+        oldCaption = {".select_3": "Стиль", ".select_4": "Размер", ".select_5": "Цена", ".select_6": "Категория"},
+        $hiddenInputs = $("form.sort input[type=hidden]"),
+        pFrom = $(".js-from").val(),
+        pTo = $(".js-to").val(),
+        changedValues = 0,
+        checkedValues = [];
+    $(parentClass + " .drop-menu .all input").prop("checked", $checkedInput.length == $allInput.length);
+
+    if($checkedInput.length > 0){
+        $(parentClass + " .dropdown").addClass("active");
+        $(parentClass + " .dropdown a.close").show();
+        for(var i = 0; i < $checkedInput.length; i++){
+            checkedValues.push(parentClass == ".select_6" ? $($checkedInput[i]).data("name") : $($checkedInput[i]).val());
+        }
+        $(parentClass + " .ae-select-content").text(checkedValues.join(", ")).attr("title", checkedValues.join(", "));
+    }else{
+        $(parentClass + " .dropdown").removeClass("active");
+        $(parentClass + " .dropdown a.close").hide();
+        $(parentClass + " .ae-select-content").text(oldCaption[parentClass]).attr("title", "");
+    }
+
+    if(parentClass == ".select_5"){
+        if(pFrom != "1000" || pTo != "6000"){
+            $(".select_5 .dropdown").addClass("active");
+            $(".select_5 .dropdown a.close").show();
+            $(".select_5 .ae-select-content").text(pFrom + " - " + pTo + " руб.").attr("title", pFrom + " - " + pTo + " руб.");
+        }else{
+            $(".select_5 .dropdown").removeClass("active");
+            $(".select_5 .dropdown a.close").hide();
+            $(".select_5 .ae-select-content").text(oldCaption[parentClass]).attr("title", "");
+        }
+    }
+    if(parentClass == ".select_2"){
+        if($(".select_2 .ae-select-content").text() != "По умолчанию"){
+            $(".select_2 .dropdown").addClass("active");
+        }else{
+            $(".select_2 .dropdown").removeClass("active");
+        }
+    }
+    $(parentClass + " .dropdown a.close").off("click").on("click", function(e){
+        e.preventDefault();
+        $(parentClass + " .dropdown").removeClass("active");
+        $(parentClass + " .dropdown a.close").hide();
+        $(parentClass + " .ae-select-content").text(oldCaption[parentClass]).attr("title", "");
+        $allInput.prop("checked", false);
+        $(parentClass).find("input[type=hidden]").val("");
+        if(parentClass == ".select_5"){
+            $(".js-from").val("");
+            $(".js-to").val("");
+        }
+        $("form.sort").trigger("submit");
+        return false;
+    });
+
+    for(var h = 0; h < $hiddenInputs.length; h++){
+        if($($hiddenInputs[h]).val() != ""){
+            changedValues++;
+        }
+    }
+    if(pFrom != "0" || pTo != "10000"){
+        changedValues++;
+    }
+    $("button.fly").attr("disabled", changedValues == 0);
+}
+
+function getCheckedArray(num){
+    var dropChecked = $(".select_" + num + " .drop-menu input:checked"),
+        outArr = [];
+    for(var i = 0; i < dropChecked.length; i++){
+        outArr.push($(dropChecked[i]).val());
+    }
+    return JSON.stringify(outArr);
+}
+
+$(document).ready(function () {
+    var dropChecked4 = getCheckedArray(4),
+        dropChecked5 = getCheckedArray(5),
+        dropChecked6 = getCheckedArray(6);
+
+    // select_2
+    $('.select_2 .ae-select-content').text($('.select_2 .drop-menu > li.selected').text());
+    var newOptions = $('.select_2 .drop-menu > li');
+    newOptions.click(function () {
+        $('.select_2 .ae-select-content').text($(this).text());
+        $('.select_2 .drop-menu > li').removeClass('selected');
+        $(this).addClass('selected');
+        defCheckAll(".select_2");
+    });
+    var aeDropdown = $('.select_2 .ae-dropdown');
+    aeDropdown.click(function () {
+        $('.select_2 .drop-menu').toggleClass('ae-hide');
+    });
+
+    $(document).click(function (e) { // событие клика по веб-документу
+        var div1 = $('.select_2 .ae-dropdown');
+        var div = $(".select_2 .drop-menu"); // тут указываем ID элемента
+        if (div1.has(e.target).length === 0 && !div.is(e.target) // если клик был не по нашему блоку
+            && div.has(e.target).length === 0) { // и не по его дочерним элементам
+            div.addClass('ae-hide'); // скрываем его
+        }
+    });
+    // select_2_end
+    // select_3
+
+    var newOptions = $('.select_3 .drop-menu > li');
+    newOptions.click(function () {
+
+        $('.select_3 .drop-menu > li').removeClass('selected');
+        $(this).addClass('selected');
+    });
+    var aeDropdown = $('.select_3 .ae-dropdown');
+    aeDropdown.click(function () {
+        $('.select_3 .drop-menu').toggleClass('ae-hide');
+    });
+
+    $(document).click(function (e) { // событие клика по веб-документу
+        var div1 = $('.select_3 .ae-dropdown');
+        var div = $(".select_3 .drop-menu"); // тут указываем ID элемента
+        if (div1.has(e.target).length === 0 && !div.is(e.target) // если клик был не по нашему блоку
+            && div.has(e.target).length === 0) { // и не по его дочерним элементам
+            div.addClass('ae-hide'); // скрываем его
+        }
+    });
+    // select_3_end
+    // select_4
+
+    var newOptions = $('.select_4 .drop-menu > li');
+    newOptions.click(function () {
+
+        $('.select_4 .drop-menu > li').removeClass('selected');
+        $(this).addClass('selected');
+    });
+    var aeDropdown = $('.select_4 .ae-select');
+    aeDropdown.click(function () {
+        $('.select_4 .drop-menu').toggleClass('ae-hide');
+        if(getCheckedArray(4) != dropChecked4 && $('.select_4 .drop-menu').hasClass("ae-hide")){
+            $("form.sort").trigger("submit");
+        }
+    });
+
+    $(document).click(function (e) { // событие клика по веб-документу
+        var div1 = $('.select_4 .ae-dropdown');
+        var div = $(".select_4 .drop-menu"); // тут указываем ID элемента
+        if (div1.has(e.target).length === 0 && !div.is(e.target) // если клик был не по нашему блоку
+            && div.has(e.target).length === 0 && !div.hasClass("ae-hide")) { // и не по его дочерним элементам
+            div.addClass('ae-hide'); // скрываем его
+            if(getCheckedArray(4) != dropChecked4){
+                $("form.sort").trigger("submit");
+            }
+        }
+    });
+   /* $('.select_4 .ae-select, .select_4 .ae-dropdown').one("click", function(e){
+        e.stopImmediatePropagation();
+        e.stopPropagation();
+        window.event.cancelBubble = true;
+        /*e.cancelBubble = true;
+        e.eventPhase = 0;
+        e.bubbles = false;
+        console.log(e.target)
+    });*/
+    var selects = document.getElementsByClassName("ae-select");
+    for(var i = 0; i < selects.length; i++){
+        selects[i].addEventListener("click", function(e){e.preventDefault();}, true);
+        selects[i].addEventListener("click", function(e){e.preventDefault();}, false);
+    }
+    // select_4_end
+    // select_5
+
+    var newOptions = $('.select_5 .drop-menu > li');
+    newOptions.click(function () {
+
+        $('.select_5 .drop-menu > li').removeClass('selected');
+        $(this).addClass('selected');
+    });
+    var aeDropdown = $('.select_5 .ae-select');
+    aeDropdown.click(function () {
+        $('.select_5 .drop-menu').toggleClass('ae-hide');
+        if(getCheckedArray(5) != dropChecked5 && $('.select_5 .drop-menu').hasClass("ae-hide")){
+            $("form.sort").trigger("submit");
+        }
+    });
+
+    $(document).click(function (e) { // событие клика по веб-документу
+        var div1 = $('.select_5 .ae-dropdown');
+        var div = $(".select_5 .drop-menu"); // тут указываем ID элемента
+        if (div1.has(e.target).length === 0 && !div.is(e.target) // если клик был не по нашему блоку
+            && div.has(e.target).length === 0 && !div.hasClass("ae-hide")) { // и не по его дочерним элементам
+            div.addClass('ae-hide'); // скрываем его
+            if(getCheckedArray(5) != dropChecked5){
+                $("form.sort").trigger("submit");
+            }
+        }
+    });
+    // select_5_end
+
+    // select_6
+
+    var newOptions = $('.select_6 .drop-menu > li');
+    newOptions.click(function () {
+
+        $('.select_6 .drop-menu > li').removeClass('selected');
+        $(this).addClass('selected');
+    });
+    var aeDropdown = $('.select_6 .ae-select');
+    aeDropdown.click(function () {
+        $('.select_6 .drop-menu').toggleClass('ae-hide');
+        if(getCheckedArray(6) != dropChecked6 && $('.select_6 .drop-menu').hasClass("ae-hide")){
+            $("form.sort").trigger("submit");
+        }
+    });
+
+    $(document).click(function (e) { // событие клика по веб-документу
+        var div1 = $('.select_6 .ae-dropdown');
+        var div = $(".select_6 .drop-menu"); // тут указываем ID элемента
+        if (div1.has(e.target).length === 0 && !div.is(e.target) // если клик был не по нашему блоку
+            && div.has(e.target).length === 0 && !div.hasClass("ae-hide")) { // и не по его дочерним элементам
+            div.addClass('ae-hide'); // скрываем его
+            if(getCheckedArray(6) != dropChecked6){
+                $("form.sort").trigger("submit");
+            }
+        }
+    });
+    // select_6_end
+
+
+    wow = new WOW(
+        {
+            mobile: false
+        }
+    );
+    wow.init();
+
+    $('.nav-btn').click(function () {
+        $(this).toggleClass('active');
+        $('.main-navigation').slideToggle();
+    });
+    // $('.search-expand').click(function() {
+    //    	$(this).toggleClass('active');
+    //    	$('.search label').toggleClass('active');
+    // });
+    $('#show-text').click(function () {
+        // $(this).text('Скрыть текст');
+        if ($(this).text() === 'Показать весь текст') {
+            $(this).text('Скрыть текст');
+        } else {
+            $(this).text('Показать весь текст');
+        }
+        $('.more-text').slideToggle(600);
+    });
+
+    $('#show-phones').click(function () {
+        // $(this).text('Скрыть текст');
+        if ($(this).text() === 'Показать') {
+            $(this).text('Скрыть');
+        } else {
+            $(this).text('Показать');
+        }
+        $('.reference-phones').slideToggle(600);
+    });
+
+    $('#show-filtr').click(function () {
+        // $(this).text('Скрыть текст');
+        if ($(this).text() === 'Показать фильтр') {
+            $(this).text('Скрыть фильтр');
+        } else {
+            $(this).text('Показать фильтр');
+        }
+        $('form.sort').slideToggle(600);
+    });
+
+    $('a.show-more').click(function (event) {
+        event.preventDefault();
+        $(this).fadeOut(400, function () {
+
+        });
+        $('.preloader-block').fadeIn(1000, function () {
+
+        });
+
+        function explode() {
+            $('.preloader-block').fadeOut(400, function () {
+
+            });
+            $('.inner-catalog .item.hidden').fadeIn(1000, function () {
+
+            });
+        }
+
+        setTimeout(explode, 2000);
+
+
+    });
+
+    $('.main-slider').slick({
+        centerMode: true,
+        centerPadding: '0',
+        focusOnSelect: true,
+        slidesToShow: 1,
+        speed: 5000,
+        autoplay: true,
+        autoplaySpeed: 5000,
+        arrows: true,
+        responsive: [
+            {
+                breakpoint: 1201,
+                settings: {
+                    arrows: true,
+                    centerMode: true,
+                    centerPadding: '0',
+                    slidesToShow: 1
+                }
+            },
+            {
+                breakpoint: 480,
+                settings: {
+                    arrows: true,
+                    centerMode: true,
+                    centerPadding: '0',
+                    slidesToShow: 1
+                }
+            }
+        ]
+    });
+    $('.nc-slider').slick({
+        centerMode: false,
+        centerPadding: '0',
+        focusOnSelect: false,
+        infinite: true,
+        slidesToShow: 4,
+        speed: 1000,
+        autoplay: true,
+        autoplaySpeed: 15000,
+        arrows: true,
+        responsive: [
+            {
+                breakpoint: 1201,
+                settings: {
+                    arrows: true,
+                    centerMode: true,
+                    centerPadding: '0',
+                    slidesToShow: 3
+                }
+            },
+            {
+                breakpoint: 993,
+                settings: {
+                    arrows: true,
+                    centerMode: false,
+                    centerPadding: '0',
+                    slidesToShow: 2
+                }
+            },
+            {
+                breakpoint: 769,
+                settings: {
+                    arrows: true,
+                    centerMode: true,
+                    centerPadding: '0',
+                    slidesToShow: 1
+                }
+            }
+        ]
+    });
+    $('.testimonials').slick({
+        centerMode: false,
+        centerPadding: '0',
+        focusOnSelect: false,
+        infinite: true,
+        slidesToShow: 2,
+        speed: 1000,
+        autoplay: true,
+        autoplaySpeed: 15000,
+        arrows: true,
+        responsive: [
+            {
+                breakpoint: 1201,
+                settings: {
+                    arrows: true,
+                    centerMode: true,
+                    centerPadding: '0',
+                    slidesToShow: 2
+                }
+            },
+            {
+                breakpoint: 993,
+                settings: {
+                    arrows: true,
+                    centerMode: false,
+                    centerPadding: '0',
+                    slidesToShow: 2
+                }
+            },
+            {
+                breakpoint: 769,
+                settings: {
+                    arrows: true,
+                    centerMode: true,
+                    centerPadding: '0',
+                    slidesToShow: 1
+                }
+            }
+        ]
+    });
+
+    $('.contacts-slider').slick({
+        focusOnSelect: false,
+        infinite: true,
+        slidesToShow: 1,
+        speed: 1000,
+        autoplay: true,
+        autoplaySpeed: 15000,
+        arrows: true,
+        responsive: [
+            {
+                breakpoint: 769,
+                settings: {
+                    arrows: false
+                }
+            }
+        ]
+    });
+
+    var $btnDisable = $('.checkout-order .check-btn button'),
+        $checkInput = $('.checkout-order #check_order_accept')
+    $checkInput.on('change', function () {
+        if ($checkInput.prop('checked')) {
+            $btnDisable.removeAttr('disabled');
+        } else {
+            $btnDisable.attr('disabled', 'disabled');
+        }
+    });
+
+    $('.photo-gallery [data-fancybox="images"], a[data-fancybox="gallery"]').fancybox({
+        baseClass: "gallery-layout",
+        loop: true,
+        buttons: [
+            "close"
+        ]
+    });
+
+    /*--Форма заявки на пропуск. Начало--*/
+    //Шаблон строки визитёра в форме заявки на пропуск
+    var memberCount = 1;
+    var memberfields = "<div class=\"field visitors-info showing-animation\" id='visitor{memberNumber}'> <div> <p> ФИО </p> <label> " +
+        "<input type=\"text\" class=\"fio\" placeholder=\"Фамилия\" name=\"visiterSecondName[]\" autocomplete=\"off\" required=\"required\"/>\n" +
+        "<input type=\"text\" class=\"fio\" placeholder=\"Имя\" name=\"visiterName[]\" autocomplete=\"off\" required=\"required\"/>\n" +
+        "<input type=\"text\" class=\"fio\" placeholder=\"Отчество\" name=\"visiterThirdName[]\" autocomplete=\"off\" required=\"required\"/>" +
+        "</label> </div> <div class=\"visitors-docs\"> <div> <label class=\"nrl\">" +
+        "<input type=\"radio\" checked=\"checked\" name=\"docType{memberNumber}\" class=\"pas\" value='Паспорт'/><span> Паспорт </span></label> / " +
+        "<label class=\"nrl\"><input type=\"radio\" name=\"docType{memberNumber}\" class=\"svid\" value='Свидетельство о рождении'/><span>Свидетельство о" +
+        " рождении</span></label>" +
+        "<label> <input type=\"text\"" +
+        " id=\"\" placeholder=\"12 34 123456\" class=\"docNumber\" autocomplete=\"off\" name=\"visitorDoc[]\" required=\"required\"/> </label> </div> <div class=\"t3\"> <p>  Прописка или регистрация  </p> <label> <input type=\"text\" id=\"\"" +
+        " placeholder=\"Адрес\" name=\"visitorAddress[]\" autocomplete=\"off\" style='width:90%' /> </label> </div><span class='memberDelete' title='Удалить'>+</span> </div> </div>",
+        $addmember = $('#add-member');
+
+    $('.add-new-member').on("click", function () {
+        $addmember.before(memberfields.replace(/\{memberNumber\}/g, memberCount));
+        setNumberRow();
+        $(".memberDelete").off("click").on("click", function () {
+            $(this).parents(".field.visitors-info").fadeOut("normal", function () {
+                $(this).remove();
+                setNumberRow();
+            });
+        });
+    });
+    //Инициализация формы
+    if ($("#orderPass").is("form")) {
+        visitorInit(0);
+    }
+    //Отправка формы
+    $("#orderPass").on("submit", function (e) {
+        e.preventDefault();
+        $.post("/modules/orderPass.php", $(this).serialize(), function (data) {
+            var answer = JSON.parse(data);
+            $("#orderPass input").removeClass("error");
+            if (answer.result == "false") {
+                var f = answer.fields;
+                if (typeof f != "undefined" && f != null) {
+                    for (var i = 0; i < f.length; i++) {
+                        var $errField = $("#orderPass input[name='" + f[i] + "']");
+                        if (f[i].indexOf("|") !== -1) {
+                            var fArr = f[i].split("|");
+                            var fieldsCol = $("#orderPass input[name='" + fArr[0] + "']");
+                            $errField = $(fieldsCol[fArr[1]]);
+                        }
+                        if (!$errField.is("input")) {
+                            $errField = $("#orderPass input[name='" + f[i] + "[]']");
+                        }
+                        $errField.addClass("error");
+                    }
+                }
+            } else {
+                $("#orderPass").trigger("reset");
+            }
+            $("#FormAnswer .modal-title").html(answer.caption);
+            $("#FormAnswer .modal-body").html(answer.message);
+            $("#FormAnswer").modal("show");
+        });
+    });
+    /*--Форма заявки на пропуск. Конец--*/
+
+    /*--Форма поиска по каталогу с выпадающими подсказками. Начало--*/
+    var search_input = $("#catalog_search_input");
+    var container = $('#search_result_container');
+
+    function closeSearchResult() {
+        container.css('display', 'none').html('');
+        search_input.unbind("keydown");
+        container.unbind("DOMMouseScroll mousewheel scroll");
+        $(document).unbind("DOMMouseScroll mousewheel scroll");
+        $('body').css("overflow", "auto");
+    }
+
+    search_input.bind("change keyup input click", function (e) {
+        if (search_input.val().length >= 2 && e.which != 40 && e.which != 38 && e.which != 13 && e.which != 27) {
+            search_input.addClass("loading");
+
+            $.post('/modules/catalog_search.php', {csearch: search_input.val()},
+                function (data) {
+                    if (data.length > 3) {
+                        container.css('display', 'block').html(data);
+                        search_input.removeClass("loading");
+                        container.bind("DOMMouseScroll mousewheel scroll", function (e) {
+                            e.stopImmediatePropagation();
+                        });
+                        $(document).bind("DOMMouseScroll mousewheel scroll", function (e) {
+                            $('body').css("overflow", "hidden");
+                        });
+                        $('.result_item:eq(0)').addClass('selected');
+                        var height = $('#search_result_container').height();
+                        var itemHeight = $('.result_item.selected').height() + 15;
+                        var top = height;
+                        search_input.bind("keydown", function (e) {
+                            //e.stopPropagation();
+
+                            if (e.which == 40) {
+                                $('.result_item.selected').closest('a').next('a').addClass('selected');
+                                $('.result_item.selected').closest('a').prev('a').removeClass('selected');
+                                search_input.val($('.result_item.selected>.item_value').text().replace("  ", " "));
+                                top = $('.result_item.selected').position().top;
+                                if (top >= height - itemHeight)
+                                    container.scrollTop(container.scrollTop() + itemHeight);
+                            }
+                            if (e.which == 38) {
+                                $('.result_item.selected').closest('a').prev('a').addClass('selected');
+                                $('.result_item.selected').closest('a').next('a').removeClass('selected');
+                                search_input.val($('.result_item.selected>.item_value').text().replace("  ", " "));
+                                top = $('.result_item.selected').position().top;
+                                if (top <= 0)
+                                    container.scrollTop(container.scrollTop() - itemHeight);
+                            }
+                            if (e.which == 13) {
+                                e.preventDefault();
+                                document.location.href = $('a.result_item.selected').attr('href');
+                            }
+                            if (e.which == 27) {
+                                closeSearchResult();
+                            }
+                        });
+
+                        $(document).click(function (e) {
+                            closeSearchResult();
+                        });
+                    } else {
+                        closeSearchResult();
+                    }
+                })
+        }
+    });
+    /*--Форма поиска по каталогу с выпадающими подсказками. Конец--*/
+
+    /*--Форма поиска вверху. Начало--*/
+    $(".search form input[type=search]").on("keydown click focus input change", function(){
+        var $button = $(".search button[type=submit]");
+        if($(this).val().length >= 2){
+            $button.css("zIndex", 3);
+        }else{
+            $button.css("zIndex", 0);
+        }
+    });
+    /*--Форма поиска вверху. Конец--*/
+
+    /*--Фильтры каталога. Начало--*/
+    /*--Слайдер. Начало--*/
+    //Дефолтные значения слайдера выбора диапозона цен
+    var $range = $(".js-range-slider"),
+        $from = $(".js-from"),
+        $to = $(".js-to"),
+        range,
+        min = 1000,
+        max = 6000,
+        from,
+        to;
+    //Функция, срабатывающая при изменеии цен диапозона
+    var updateValues = function () {
+        $from.prop("value", from);
+        $to.prop("value", to);
+    };
+    //Инициализация слайдера
+    $range.ionRangeSlider({
+        type: "double",
+        min: min,
+        max: max,
+        from: $from.val(),
+        to: $to.val(),
+        prettify_enabled: false,
+        grid: true,
+        grid_num: 10,
+        onChange: function (data) {
+            from = data.from;
+            to = data.to;
+
+            updateValues();
+            defCheckAll(".select_5");
+        },
+        onFinish: function (data) {
+            from = data.from;
+            to = data.to;
+
+            updateValues();
+            defCheckAll(".select_5");
+        }
+    });
+
+    range = $range.data("ionRangeSlider");
+
+    var updateRange = function () {
+        range.update({
+            from: from,
+            to: to
+        });
+    };
+
+    $from.on("change", function () {
+        from = +$(this).prop("value");
+        if (from < min) {
+            from = min;
+        }
+        if (from > to) {
+            from = to;
+        }
+
+        updateValues();
+        updateRange();
+        defCheckAll(".select_5");
+    });
+
+    $to.on("change", function () {
+        to = +$(this).prop("value");
+        if (to > max) {
+            to = max;
+        }
+        if (to < from) {
+            to = from;
+        }
+
+        updateValues();
+        updateRange();
+        defCheckAll(".select_5");
+    });
+    /*--Слайдер. Начало--*/
+
+    //Поведение чек-кнопок "Выделить всё" в выпадающих списках фильтров
+    $('.drop-menu li.all').on("click", function (e) {console.log(window.event.srcElement, e);
+        e.stopPropagation();
+        e.cancelBubble = true;
+        if($(this).has(e.target)) {
+            var $input = $(this).find("input");
+            var state = $input.prop("checked");
+            if (!state) {
+                $(this).removeClass("selected");
+            }
+            $(this).parent('.drop-menu').find("input").prop("checked", state);
+
+        }
+    });
+
+    //Поведение пунктов выпадающего списка фильтра при клике по ним
+    $(".drop-menu li:not(.all)").on("click", function(){
+        var checkedValue = [],
+        $checkedInput = $(this).parents(".drop-menu").find(".value input:checked");
+        for(var i = 0; i < $checkedInput.length; i++){
+            checkedValue.push($($checkedInput[i]).val());
+        }
+        $(this).parents(".dropdown").find("input[type=hidden]").val(checkedValue.join("|"));
+        defCheckAll(".select_3");
+        defCheckAll(".select_4");
+        defCheckAll(".select_6");
+    });
+
+    //Инициализация внешнего вида фильтров при загрузке страницы
+    defCheckAll(".select_2");
+    defCheckAll(".select_3");
+    defCheckAll(".select_4");
+    defCheckAll(".select_5");
+    defCheckAll(".select_6");
+
+    //Поведение кнопки "Очистить" при клике
+    $("button.fly").on("click", function(e){
+        e.preventDefault();
+        $(".dropdown a.close").click();
+        $(this).attr("disabled", true);
+    });
+
+    //Поведение чекбоксов типов
+    $(".extFilter input[type=checkbox]").on("change", function(){
+       $(this).parents("form").trigger("submit");
+    });
+    /*--Фильтры каталога. Конец--*/
+
+	
+});
+function showWarning(){
+	if(document.cookie.indexOf('warn_ost_p=yes') == -1){
+		$('button[data-target="#myModal"]').click();
+		document.cookie = 'warn_ost_p=yes; max-age=10000000; path=/;';
+	}
+	else {
+		return;
+	}	
+}
+setTimeout(showWarning, 3000);

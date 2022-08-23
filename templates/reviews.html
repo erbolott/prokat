@@ -1,0 +1,108 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+
+{% block content %}
+<main class="gallery-page">
+    <div class="container">
+      <div class="breadcrumbs">
+        <ul>
+          <li>
+            <a href="/">Главная</a>
+          </li>
+          <li>Отзывы</li>
+        </ul>
+      </div>
+    </div>
+    <div class="title">
+      <h1>Отзывы и предложения</h1>
+    </div>
+    <div class="container">
+      <script src='https://www.google.com/recaptcha/api.js'></script>
+      <!--<a href="#Add"><h2>Добавить отзыв</h2></a>-->
+      <p> Записи с &nbsp;1 по 18 из 18</p>
+      <table border="0" width="50%" align="center" class="navtable">
+        <tr>
+          <td width="20%" align="center"></td>
+          <td width="20%" align="center"></td>
+          <td width="20%" align="center"></td>
+          <td width="20%" align="center"></td>
+          <td width="20%" align="center"></td>
+        </tr>
+      </table>
+      {% for rev in reviews %}
+      <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" class="el_guest_tbl">
+        <tr>
+          <td>
+            <table width="100%" height="100%" border="0" align="center" cellpadding="5" cellspacing="0" class="el_guest_tbl">
+              <tr>
+                <td bgcolor="#faf4e9" class="text">
+                  <strong> {{rev.name}}</strong>&nbsp; [ {{rev.city}} {{rev.create_at}}]&nbsp;&nbsp;
+                </td>
+              </tr>
+              <tr>
+                <td class="text">
+                  <p>{{rev.reviews}}</p>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+      {% endfor %}
+      <table border="0" width="50%" align="center" class="navtable">
+        <tr>
+          <td width="20%" align="center"></td>
+          <td width="20%" align="center"></td>
+          <td width="20%" align="center"></td>
+          <td width="20%" align="center"></td>
+          <td width="20%" align="center"></td>
+        </tr>
+      </table>
+      <div class="checkout-order">
+        <div class="guest-form">
+          <a name="Add" id="Add"></a>
+          <div class="title">
+            <h2>Добавить отзыв</h2>
+          </div>
+          {% if messages %}
+					{% for foo in messages %}
+						<div class="alert alert-{{foo.tags}}" role="alert">
+							{{foo}}
+						</div>
+					{% endfor %}
+			{% endif %}
+          <div class="field main-info">
+            <form  method="post" class="form">
+            {% csrf_token %}
+              <div class="field visitors-info">
+                <label>
+                    {{form.name}}
+                </label>
+                <label>
+                    {{form.email}}
+                </label>
+                <label>
+                    {{form.city}}
+                </label>
+              </div>
+              {{form.reviews}}
+              <label style="display:inline-block;">
+                <!--Защитный код <span class="error">*</span>-->&nbsp;
+              </label>
+              <!--<span class="capcha"><img src="/images/randomimage.php" alt="Введите этот защитный код" border="0" align="absmiddle"></span>-->
+              <div class="g-recaptcha" data-sitekey="6LfXuaEUAAAAALLEjArwx2fNJ7rJThi1DrWuVXVV" style="display:inline-block;"></div>
+              <div class="field check-btn">
+                <button type="submit" name="submit" id="submit">Отправить отзыв</button>
+              </div>
+              <input type="hidden" name="ip" value="89.237.196.125" />
+              <input type="hidden" name="date" value="2022-01-26" />
+              <input type="hidden" name="MM_insert" value="form1">
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+{% endblock %}

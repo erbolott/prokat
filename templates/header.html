@@ -1,0 +1,92 @@
+{% load static %}
+<header>
+    <div class="nav-row">
+       <div class="container">
+          <div class="inner">
+             <div class="main-nav">
+                <div class="nav-btn">
+                   <button class="c-hamburger c-hamburger--htx">
+                   <span>toggle menu</span>
+                   </button>
+                </div>
+                <ul class="main-navigation" id="">
+                   <li><a href="{% url 'home' %}" >Главная</a></li>
+                   <li><a href="/category/1/muzhskie-kostyumy" >Каталог проката</a></li>
+                   <li><a href="/gallery/" >Фотогалерея</a></li>
+                   <li><a href="{% url 'uslovia' %}" >Условия проката</a></li>
+                   <li><a href="{% url 'contact' %}" >Контакты</a></li>
+                   <li><a href="{% url 'news' %}" >Новости</a></li>
+                   <li><a href="{% url 'reviews' %}" >Отзывы</a></li>
+                   <li><a href="{% url 'tablitsa_razmerov' %}" >Таблицы размеров</a></li>
+                </ul>
+             </div>
+             <div class="search" id="">
+                <form action="{% url 'search' %}" method="post">
+                  {% csrf_token %}
+                   <label for="">
+                      <input type="text" name="query" id="query" placeholder="Поиск по сайту...">
+                      <button type="submit" value="submit">
+                         <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="21px" height="21px">
+                            <path fill-rule="evenodd" fill="rgb(255, 255, 255)" d="M19.755,18.579 L14.947,13.771 C16.138,12.318 16.857,10.457 16.857,8.428 C16.857,3.775 13.081,-0.000 8.428,-0.000 C3.771,-0.000 -0.000,3.775 -0.000,8.428 C-0.000,13.081 3.771,16.857 8.428,16.857 C10.457,16.857 12.314,16.142 13.767,14.950 L18.575,19.754 C18.902,20.081 19.428,20.081 19.755,19.754 C20.081,19.432 20.081,18.901 19.755,18.579 ZM8.428,15.179 C4.702,15.179 1.673,12.151 1.673,8.428 C1.673,4.706 4.702,1.673 8.428,1.673 C12.151,1.673 15.183,4.706 15.183,8.428 C15.183,12.151 12.151,15.179 8.428,15.179 Z"></path>
+                         </svg>
+                      </button>
+                   </label>
+                </form>
+             </div>
+          </div>
+       </div>
+    </div>
+    <div class="container">
+       <div class="site-header">
+          <div class="up-row">
+             <div class="total">
+                <div class="logo">
+                <a href="{% url 'home' %}">
+                   <a href="{% url 'home' %}"><img style="width:200px;" src="{{settings.logo.url}}" alt="Прокат костюмов"></a>
+                   <p>Прокат костюмов</p>
+                </a>
+             </div>
+             <h5 style="padding-top:10px;padding-bottom:20px;text-align: center;">Более 20 тысяч довольных клиентов</h5>
+             </div>
+             <div class="total">
+                 <div class="schedule">
+                <div class="left">
+                   <img src="{% static 'img/ico/time.svg' %}" alt="время">
+                </div>
+                <div class="right wa mb5">
+                   <p>Режим работы</p>
+                   <p>Ежедневно:  <span>{{settings.time_work}}</span></p>
+                   <p>Без <span style="color: black;font-weight: bolder ">перерывов и выходных</span></p>
+                </div>
+             </div>
+             <div style="text-align: center;margin-top:45px;margin-bottom:20px;" class="order-permit">
+               <a href="{% url 'order' %}" id="gotoPass" >Записаться на примерку </a>
+            </div>
+             </div>
+            
+             <div class="total">
+               <div class="schedule">
+                <div class="left">
+                   <img src="{% static 'img/ico/phone.svg' %}" alt="телефон" class="telefon">
+                </div>
+                <div class="right wa">
+                   <a href="https://wa.me/{{settings.watsapp}}" class="cbp-mc-submit"><span class="icon-whatsapp"></span> WhatsApp </a>
+                   <a href="https://tlgg.ru/Kurmanbek11" class="telegram"><span class="icon-telegram1"></span></a>
+                   <a href="{{settings.instagram}}"><img width="30px" style="margin-top:-5px;" src="{% static 'img/ico/inst_icon.png' %}" alt=""></a>
+                   <p>
+                      <a href="tel:{{settings.phone}}">{{settings.phone}}</a>
+                   </p>
+                   <p> <a href="tel:{{settings.watsapp}}">{{settings.watsapp}}</a></p>
+                </div>
+             </div> 
+             <div style="margin-top:30px;align-items: center;" class="schedule">
+               <div class="left">
+                 <img src="{% static 'img/ico/marker.svg' %}" alt="pin marker" />
+               </div>
+               <div class="right wa">
+                 <p><strong>{{settings.location}}</strong></p>
+               </div>
+         </div>
+             </div>
+    </div>
+ </header>

@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block content %}
+<main class="gallery-page">
+    <div class="container">
+      <div class="breadcrumbs">
+        <ul>
+          <li>
+            <a href="{% url 'home' %}">Главная</a>
+          </li>
+          <li>Новости</li>
+        </ul>
+      </div>
+    </div>
+    <div class="title">
+      <h1>Новости</h1>
+    </div>
+    <div class="container">
+      <div class="articles pt-40">
+        {%  for i in page_obj %}
+        <div class="item">
+          <div class="image">
+            <a href="/news/{{i.id}}/{{i.slug}}">
+              <img src="{{i.img.url}}" alt="">
+            </a>
+          </div>
+          <p class="name">
+            <a href="/news/{{i.id}}/{{i.slug}}">{{i.title}}</a>
+          </p>
+          <div class="text">
+            <p>{{i.description}}</p>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+      {% if page_obj.has_other_pages %} <!-- проверка на страницы -->
+      <div class="pagination">
+         <ul>
+           <!-- check button pogination №1  -->
+           {% if page_obj.has_previous %}
+           <li class="next"><a href="?page={{page_obj.previous_page_number}}"><img style="transform: rotate(180deg);" src="{% static 'img/ico/arrow.svg' %}" alt="Следующая"/></a></li>
+           {% endif %}
+           <!-- endcheck button pogination №1 -->
+
+           {% for p in page_obj.paginator.page_range %} <!-- вывод пагинаций -->
+           {% if page_obj.number == p %}
+            <li><a class="active">{{p}}</a></li>  
+           {% elif p >= page_obj.number|add:-7 and p <= page_obj.number|add:7 %}
+            <li><a href="?page={{p}}">{{p}}</a></li>
+           {% endif %}
+
+             {% endfor %}
+              
+             <!-- check button pogination №2  -->
+             {% if page_obj.has_next %}
+             <li class="next"><a href="?page={{page_obj.next_page_number}}"><img src="{% static 'img/ico/arrow.svg' %}" alt="Следующая"/></a></li>
+             {% endif %}
+             <!-- endcheck button pogination №2 -->
+
+         </ul>
+      </div>
+      {% endif %}
+      <!-- endpogination moment  -->
+    </div>
+  </main>
+{% endblock %}
